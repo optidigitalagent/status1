@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STATUS — Центр сучасної стоматології · Запоріжжя</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet">
+<script src="image-slot.js"></script>
+<link rel="stylesheet" href="status.css">
+</head>
+<body>
+
+<!-- ================= NAV ================= -->
+<header class="nav" id="nav">
+  <div class="wrap nav-inner">
+    <a href="#top" class="brand" aria-label="STATUS — центр сучасної стоматології">
+      <img src="status-logo.png" alt="STATUS — центр сучасної стоматології" class="brand-logo">
+    </a>
+    <nav class="nav-links" aria-label="Головна навігація">
+      <a href="#services">Послуги</a>
+      <a href="#about">Про клініку</a>
+      <a href="#team">Команда</a>
+      <a href="#reviews">Відгуки</a>
+      <a href="#contact">Контакти</a>
+    </nav>
+    <a href="#contact" class="btn btn-fill nav-cta">Записатися</a>
+    <button class="nav-burger" id="nav-burger" aria-label="Меню" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="nav-mobile" id="nav-mobile">
+    <a href="#services">Послуги</a>
+    <a href="#about">Про клініку</a>
+    <a href="#team">Команда</a>
+    <a href="#reviews">Відгуки</a>
+    <a href="#contact">Контакти</a>
+    <a href="#contact" class="btn btn-fill">Записатися на прийом</a>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <div class="grain" aria-hidden="true"></div>
+  <svg class="hero-watermark" viewBox="0 0 100 100" aria-hidden="true">
+    <path d="M50 12 C34 12 20 20 20 38 C20 52 24 64 30 82 C32 90 40 90 42 82 L46 60 C47 54 53 54 54 60 L58 82 C60 90 68 90 70 82 C76 64 80 52 80 38 C80 20 66 12 50 12 Z"/>
+  </svg>
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <p class="eyebrow reveal-up" style="--d:0ms">Запоріжжя · вул. Поштова, 161/36</p>
+      <h1 class="hero-title">
+        <span class="reveal-up" style="--d:90ms">Ваша усмішка —</span>
+        <span class="reveal-up accent" style="--d:200ms">наш статус</span>
+      </h1>
+      <p class="hero-lede reveal-up" style="--d:320ms">
+        Центр сучасної стоматології повного циклу — від делікатної діагностики
+        до складної хірургії. Лікування без болю, перевірене обладнання,
+        команда, якій можна довіритися.
+      </p>
+      <div class="hero-actions reveal-up" style="--d:440ms">
+        <a href="#contact" class="btn btn-fill">Записатися на прийом</a>
+        <a href="#services" class="btn btn-ghost">Наші послуги</a>
+      </div>
+      <div class="hero-stats reveal-up" style="--d:560ms">
+        <div class="stat"><span class="stat-num">15<i>+</i></span><span class="stat-lbl">років практики</span></div>
+        <div class="stat-div" aria-hidden="true"></div>
+        <div class="stat"><span class="stat-num">8</span><span class="stat-lbl">напрямків лікування</span></div>
+        <div class="stat-div" aria-hidden="true"></div>
+        <div class="stat"><span class="stat-num">0</span><span class="stat-lbl">болю на процедурах</span></div>
+      </div>
+    </div>
+    <div class="hero-media reveal-up" style="--d:300ms">
+      <image-slot id="hero-photo" class="hero-photo" shape="rounded" radius="4"
+        placeholder="Фото клініки або усмішки пацієнта"></image-slot>
+      <div class="hero-badge">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.4 6.9H22l-6 4.4 2.3 7-6.3-4.5L5.7 20 8 13.3 2 8.9h7.6z" fill="currentColor"/></svg>
+        <span>Анестезія на<br>кожній процедурі</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TRUST BAR ================= -->
+<section class="trust" aria-label="Чому пацієнти обирають STATUS">
+  <div class="wrap trust-grid">
+    <div class="trust-item reveal-up">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-4.35-9.5-8.5C.9 9.6 2.3 6 5.5 6 7.6 6 9 7.3 12 10c3-2.7 4.4-4 6.5-4 3.2 0 4.6 3.6 3 6.5C19 16.65 12 21 12 21z"/></svg>
+      <h3>Лікування без болю</h3>
+      <p>Сучасна анестезія на кожній процедурі — комфорт від першої хвилини.</p>
+    </div>
+    <div class="trust-item reveal-up" style="--d:90ms">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 20c0-3.3 2.6-5.5 5.5-5.5s5.5 2.2 5.5 5.5"/><circle cx="17" cy="9" r="2.6"/><path d="M14.5 14.6c2.7.2 5 2.2 5 5.4"/></svg>
+      <h3>Досвідчена команда</h3>
+      <p>Лікарі вузьких спеціальностей, що ведуть пацієнта на кожному етапі.</p>
+    </div>
+    <div class="trust-item reveal-up" style="--d:180ms">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="4.5" width="17" height="13" rx="2"/><path d="M8 21h8M12 17.5V21M7.5 9l2.2 2.2L16 5"/></svg>
+      <h3>Світове обладнання</h3>
+      <p>Діагностика та лікування на техніці провідних виробників.</p>
+    </div>
+    <div class="trust-item reveal-up" style="--d:270ms">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5c0 4.4-3 8.3-7 9.5C8 19.3 5 15.4 5 11V6z"/><path d="M9 11.5l2 2 4-4.2"/></svg>
+      <h3>Повний цикл</h3>
+      <p>Від першої консультації до імплантації — усе в одному місці.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SERVICES ================= -->
+<section class="section services" id="services">
+  <div class="wrap">
+    <div class="sec-head reveal-up">
+      <span class="sec-kicker">Послуги</span>
+      <h2 class="sec-title">Повний спектр стоматології<br>під одним дахом</h2>
+      <p class="sec-lede">Кожен напрямок ведуть профільні спеціалісти. Ви отримуєте
+        прозорий план лікування та результат, у якому впевнені.</p>
+    </div>
+    <div class="hr-teal reveal-up" aria-hidden="true"></div>
+    <div class="svc-grid">
+      <article class="svc-card svc-wide reveal-up" data-num="01">
+        <div class="svc-ico">
+          <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 4C9 4 6 8 6 13c0 5 2 9 4 14 1 2.6 4 2.6 5 0l1.5-6c.3-1.5 1.5-1.5 1.8 0l1.5 6c1 2.6 4 2.6 5 0 2-5 4-9 4-14 0-5-3-9-10-9-1 0-2 .4-3 1-1-.6-2-1-3-1z"/></svg>
+        </div>
+        <div class="svc-body">
+          <h3>Імплантація</h3>
+          <p>Відновлення втрачених зубів імплантами світових систем — надійна
+            основа на десятиліття, з точним цифровим плануванням.</p>
+          <span class="svc-link">Детальніше →</span>
+        </div>
+      </article>
+      <article class="svc-card reveal-up" data-num="02" style="--d:60ms">
+        <div class="svc-ico"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 5C10 5 7 9 7 14c0 4.5 2 8 3.6 12 .9 2.2 3.4 2.2 4.2 0l1-4c.3-1.2 1.1-1.2 1.4 0l1 4c.8 2.2 3.3 2.2 4.2 0C25 22 27 18.5 27 14c0-5-3-9-9-9-.7 0-1.4.2-2 .5-.6-.3-1.3-.5-2-.5z"/><path d="M14 13l1.5 1.5L20 10" stroke-width="1.6" fill="none" stroke="currentColor"/></svg></div>
+        <div class="svc-body">
+          <h3>Гігієнічне чищення</h3>
+          <p>Професійна чистка та polishing — здорові ясна й сяюча усмішка.</p>
+          <span class="svc-link">Детальніше →</span>
+        </div>
+      </article>
+      <article class="svc-card reveal-up" data-num="03" style="--d:120ms">
+        <div class="svc-ico"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 5C10 5 7 9 7 14c0 4.5 2 8 3.6 12 .9 2.2 3.4 2.2 4.2 0l1-4c.3-1.2 1.1-1.2 1.4 0l1 4c.8 2.2 3.3 2.2 4.2 0C25 22 27 18.5 27 14c0-5-3-9-9-9-.7 0-1.4.2-2 .5-.6-.3-1.3-.5-2-.5z"/></svg></div>
+        <div class="svc-body">
+          <h3>Лікування зубів і каналів</h3>
+          <p>Терапія карієсу, ясен та ендодонтія під мікроскопом — без болю.</p>
+          <span class="svc-link">Детальніше →</span>
+        </div>
+      </article>
+      <article class="svc-card reveal-up" data-num="04" style="--d:60ms">
+        <div class="svc-ico"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="8" y="6" width="16" height="20" rx="3"/><path d="M12 11h8M12 16h8M12 21h5" stroke="currentColor" stroke-width="1.6" fill="none"/></svg></div>
+        <div class="svc-body">
+          <h3>Протезування</h3>
+          <p>Вініри, коронки та мости, що повертають естетику і функцію.</p>
+          <span class="svc-link">Детальніше →</span>
+        </div>
+      </article>
+      <article class="svc-card reveal-up" data-num="05" style="--d:120ms">
+        <div class="svc-ico"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 6C11 6 8 9 8 14c0 4 2 7 3.4 10.5.8 2 3 2 3.7 0l.9-3.5c.3-1 1-1 1.3 0l.9 3.5c.7 2 2.9 2 3.7 0C23 21 25 18 25 14c0-5-3-8-8-8z"/><path d="M21 7l1.5-2M24 10l2-1M23 14h2.5" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></div>
+        <div class="svc-body">
+          <h3>Відбілювання</h3>
+          <p>Безпечне освітлення емалі до природного відтінку вашої усмішки.</p>
+          <span class="svc-link">Детальніше →</span>
+        </div>
+      </article>
+      <article class="svc-card reveal-up" data-num="06" style="--d:180ms">
+        <div class="svc-ico"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M6 12c4-2 7-2 10 0s6 2 10 0M6 18c4-2 7-2 10 0s6 2 10 0" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M9 12v6M16 13v6M23 12v6" stroke="currentColor" stroke-width="1.8"/></svg></div>
+        <div class="svc-body">
+          <h3>Виправлення прикусу</h3>
+          <p>Брекети та елайнери — рівні зуби й здоровий прикус у будь-якому віці.</p>
+          <span class="svc-link">Детальніше →</span>
+        </div>
+      </article>
+      <article class="svc-card reveal-up" data-num="07" style="--d:60ms">
+        <div class="svc-ico"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M20 5l7 7-13 13-7 1 1-7z"/><path d="M17 8l7 7" stroke="currentColor" stroke-width="1.6" fill="none"/></svg></div>
+        <div class="svc-body">
+          <h3>Хірургічне лікування</h3>
+          <p>Складні видалення та операції з акуратним, прогнозованим загоєнням.</p>
+          <span class="svc-link">Детальніше →</span>
+        </div>
+      </article>
+      <article class="svc-card reveal-up" data-num="08" style="--d:120ms">
+        <div class="svc-ico"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 4l2.7 7.8L27 13l-6.6 5 2.4 8.2L16 21.8 9.2 26.2 11.6 18 5 13l8.3-1.2z"/></svg></div>
+        <div class="svc-body">
+          <h3>Естетична стоматологія</h3>
+          <p>Дизайн усмішки, у якому кожна деталь продумана під ваше обличчя.</p>
+          <span class="svc-link">Детальніше →</span>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ABOUT ================= -->
+<section class="section about" id="about">
+  <div class="wrap about-grid">
+    <div class="about-media reveal-up">
+      <image-slot id="about-photo" class="about-photo" shape="rounded" radius="4"
+        placeholder="Інтер'єр клініки STATUS"></image-slot>
+      <div class="about-accent" aria-hidden="true"></div>
+    </div>
+    <div class="about-copy reveal-up" style="--d:120ms">
+      <span class="sec-kicker">Про клініку</span>
+      <h2 class="sec-title">Спокій починається<br>ще у приймальні</h2>
+      <p class="sec-lede">STATUS — це місце, де сучасна стоматологія поєднується з
+        турботою. Ми створили простір, у якому не страшно: тиша, чисті лінії,
+        прозорість на кожному кроці.</p>
+      <ul class="about-list">
+        <li><span class="tick" aria-hidden="true"></span>Індивідуальний план лікування з фіксованою вартістю</li>
+        <li><span class="tick" aria-hidden="true"></span>Стерилізація та безпека за міжнародними протоколами</li>
+        <li><span class="tick" aria-hidden="true"></span>Лікарі, які пояснюють кожне рішення зрозумілою мовою</li>
+        <li><span class="tick" aria-hidden="true"></span>Зручний графік і запис у кілька кліків</li>
+      </ul>
+      <a href="#contact" class="btn btn-fill">Записатися на консультацію</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TEAM ================= -->
+<section class="section team" id="team">
+  <div class="wrap">
+    <div class="sec-head center reveal-up">
+      <span class="sec-kicker">Команда</span>
+      <h2 class="sec-title">Лікарі, яким довіряють</h2>
+      <p class="sec-lede">Профільні спеціалісти з багаторічною практикою — кожен веде свій напрямок.</p>
+    </div>
+    <div class="team-grid">
+      <figure class="doc reveal-up">
+        <div class="doc-ring"><image-slot id="doc-1" class="doc-photo" shape="circle" placeholder="Фото лікаря"></image-slot></div>
+        <figcaption>
+          <h3>Олена Ковальчук</h3>
+          <p class="doc-role">Терапевт-ендодонтист</p>
+        </figcaption>
+      </figure>
+      <figure class="doc reveal-up" style="--d:100ms">
+        <div class="doc-ring"><image-slot id="doc-2" class="doc-photo" shape="circle" placeholder="Фото лікаря"></image-slot></div>
+        <figcaption>
+          <h3>Андрій Мельник</h3>
+          <p class="doc-role">Хірург-імплантолог</p>
+        </figcaption>
+      </figure>
+      <figure class="doc reveal-up" style="--d:200ms">
+        <div class="doc-ring"><image-slot id="doc-3" class="doc-photo" shape="circle" placeholder="Фото лікаря"></image-slot></div>
+        <figcaption>
+          <h3>Марія Левченко</h3>
+          <p class="doc-role">Ортодонт</p>
+        </figcaption>
+      </figure>
+      <figure class="doc reveal-up" style="--d:300ms">
+        <div class="doc-ring"><image-slot id="doc-4" class="doc-photo" shape="circle" placeholder="Фото лікаря"></image-slot></div>
+        <figcaption>
+          <h3>Ігор Савченко</h3>
+          <p class="doc-role">Ортопед-протезист</p>
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TESTIMONIALS ================= -->
+<section class="section reviews" id="reviews">
+  <span class="quote-mark" aria-hidden="true">&rdquo;</span>
+  <div class="wrap">
+    <div class="sec-head center reveal-up">
+      <span class="sec-kicker">Відгуки</span>
+      <h2 class="sec-title">Що кажуть наші пацієнти</h2>
+    </div>
+    <div class="rev-grid">
+      <blockquote class="rev-card reveal-up">
+        <div class="stars" aria-hidden="true">★★★★★</div>
+        <p>Уперше не нервувала у кріслі. Все пояснили, зробили без болю, а результат — кращий, ніж очікувала. Тепер уся родина лікується тільки тут.</p>
+        <footer><span class="rev-name">Тетяна Г.</span><span class="rev-meta">імплантація</span></footer>
+      </blockquote>
+      <blockquote class="rev-card reveal-up" style="--d:100ms">
+        <div class="stars" aria-hidden="true">★★★★★</div>
+        <p>Сучасна клініка з людським ставленням. Лікар не нав'язував зайвого, склав чесний план. Запоріжжю давно бракувало такого рівня.</p>
+        <footer><span class="rev-name">Дмитро К.</span><span class="rev-meta">лікування каналів</span></footer>
+      </blockquote>
+      <blockquote class="rev-card reveal-up" style="--d:200ms">
+        <div class="stars" aria-hidden="true">★★★★★</div>
+        <p>Робила відбілювання та чистку — акуратно, швидко, без неприємних відчуттів. Адміністратори уважні, простір ідеально чистий. Рекомендую.</p>
+        <footer><span class="rev-name">Олександра М.</span><span class="rev-meta">естетика</span></footer>
+      </blockquote>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section class="section contact" id="contact">
+  <div class="wrap contact-grid">
+    <div class="contact-form-wrap reveal-up">
+      <span class="sec-kicker light">Запис</span>
+      <h2 class="sec-title light">Записатися на прийом</h2>
+      <p class="contact-lede">Залиште заявку — адміністратор передзвонить, щоб підтвердити зручний час.</p>
+      <form class="form" id="appt-form" novalidate>
+        <div class="field">
+          <label for="f-name">Ім'я</label>
+          <input id="f-name" name="name" type="text" placeholder="Ваше ім'я" required>
+        </div>
+        <div class="field">
+          <label for="f-phone">Телефон</label>
+          <input id="f-phone" name="phone" type="tel" placeholder="+38 (0__) ___-__-__" required>
+        </div>
+        <div class="field">
+          <label for="f-service">Послуга</label>
+          <select id="f-service" name="service">
+            <option value="" disabled selected>Оберіть напрямок</option>
+            <option>Гігієнічне чищення</option>
+            <option>Лікування зубів і каналів</option>
+            <option>Імплантація</option>
+            <option>Протезування</option>
+            <option>Відбілювання</option>
+            <option>Виправлення прикусу</option>
+            <option>Хірургічне лікування</option>
+            <option>Естетична стоматологія</option>
+            <option>Інша консультація</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="f-note">Коментар</label>
+          <textarea id="f-note" name="note" rows="3" placeholder="Що вас турбує? (необов'язково)"></textarea>
+        </div>
+        <button type="submit" class="btn btn-fill btn-block">Відправити заявку</button>
+        <p class="form-note" id="form-note" hidden>Дякуємо! Ми зв'яжемося з вами найближчим часом.</p>
+      </form>
+    </div>
+    <aside class="contact-info reveal-up" style="--d:120ms">
+      <div class="info-block">
+        <h3>Адреса</h3>
+        <p>вул. Поштова, 161/36<br>Запоріжжя</p>
+      </div>
+      <div class="info-block">
+        <h3>Телефони</h3>
+        <p><a href="tel:+380983181262">+38 (098) 318-12-62</a><br>
+           <a href="tel:+380617875511">+38 (061) 787-55-11</a></p>
+      </div>
+      <div class="info-block">
+        <h3>Графік</h3>
+        <p>Пн – Сб · 9:00 – 19:00<br>Нд · за записом</p>
+      </div>
+      <div class="info-block">
+        <h3>Instagram</h3>
+        <p><a href="https://instagram.com/status_dent_zp" target="_blank" rel="noopener">@status_dent_zp</a></p>
+      </div>
+      <div class="map" aria-label="Розташування клініки">
+        <iframe title="Карта" src="https://www.openstreetmap.org/export/embed.html?bbox=35.10%2C47.82%2C35.20%2C47.86&layer=mapnik&marker=47.84%2C35.15" loading="lazy"></iframe>
+      </div>
+    </aside>
+  </div>
+</section>
+
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <a href="#top" class="brand brand-foot" aria-label="STATUS">
+      <span class="brand-logo-chip"><img src="status-logo.png" alt="STATUS — центр сучасної стоматології"></span>
+    </a>
+    <nav class="footer-links" aria-label="Footer">
+      <a href="#services">Послуги</a>
+      <a href="#about">Про клініку</a>
+      <a href="#team">Команда</a>
+      <a href="#reviews">Відгуки</a>
+      <a href="#contact">Контакти</a>
+    </nav>
+    <div class="footer-contact">
+      <a href="tel:+380983181262">+38 (098) 318-12-62</a>
+      <span>вул. Поштова, 161/36, Запоріжжя</span>
+      <a href="https://instagram.com/status_dent_zp" target="_blank" rel="noopener">@status_dent_zp</a>
+    </div>
+  </div>
+  <div class="footer-base">
+    <span>© 2026 STATUS · Центр сучасної стоматології</span>
+    <span>Лікування без болю · Повний цикл послуг</span>
+  </div>
+</footer>
+
+<script src="status.js"></script>
+</body>
+</html>
