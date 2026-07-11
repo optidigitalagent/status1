@@ -50,20 +50,23 @@ requestAnimationFrame(() => requestAnimationFrame(() => {
   restart();
 })();
 
-// Certificates carousel — scroll by one card width per click, auto-advances,
-// pauses on manual interaction (touch/wheel/nav clicks)
-(() => {
-  const track = document.getElementById('cert-track');
-  const prev = document.getElementById('cert-prev');
-  const next = document.getElementById('cert-next');
-  if (!track || !prev || !next) return;
+// Certificates — two rows, auto-scrolling in opposite directions,
+// pause on manual touch/wheel interaction, click a cert to open it fullscreen
+function wireCertRow(track, direction) {
+  if (!track) return;
   const step = () => (track.querySelector('.cert-card')?.offsetWidth || 220) + 20;
   const atEnd = () => track.scrollLeft + track.clientWidth >= track.scrollWidth - 4;
+  const atStart = () => track.scrollLeft <= 4;
 
   let timer;
   function autoAdvance() {
-    if (atEnd()) track.scrollTo({ left: 0, behavior: 'smooth' });
-    else track.scrollBy({ left: step(), behavior: 'smooth' });
+    if (direction === 1) {
+      if (atEnd()) track.scrollTo({ left: 0, behavior: 'smooth' });
+      else track.scrollBy({ left: step(), behavior: 'smooth' });
+    } else {
+      if (atStart()) track.scrollTo({ left: track.scrollWidth, behavior: 'smooth' });
+      else track.scrollBy({ left: -step(), behavior: 'smooth' });
+    }
   }
   function startAuto() {
     clearInterval(timer);
@@ -75,11 +78,49 @@ requestAnimationFrame(() => requestAnimationFrame(() => {
     pauseAuto._resume = setTimeout(startAuto, 6000);
   }
 
-  prev.addEventListener('click', () => { track.scrollBy({ left: -step() * 2, behavior: 'smooth' }); pauseAuto(); });
-  next.addEventListener('click', () => { track.scrollBy({ left: step() * 2, behavior: 'smooth' }); pauseAuto(); });
+  if (direction === -1) track.scrollLeft = track.scrollWidth;
   track.addEventListener('touchstart', pauseAuto, { passive: true });
   track.addEventListener('wheel', pauseAuto, { passive: true });
   startAuto();
+}
+wireCertRow(document.getElementById('cert-track-1'), 1);
+wireCertRow(document.getElementById('cert-track-2'), -1);
+
+// Certificate fullscreen modal
+(() => {
+  const modal = document.getElementById('cert-modal');
+  const modalImg = document.getElementById('cert-modal-img');
+  const closeBtn = document.getElementById('cert-modal-close');
+  if (!modal || !modalImg || !closeBtn) return;
+  function open(src, alt) {
+    modalImg.src = src;
+    modalImg.alt = alt;
+    modal.classList.add('open');
+  }
+  function close() {
+    modal.classList.remove('open');
+    modalImg.src = '';
+  }
+  document.querySelectorAll('.cert-card img').forEach((img) => {
+    img.addEventListener('click', () => open(img.src, img.alt));
+  });
+  closeBtn.addEventListener('click', close);
+  modal.addEventListener('click', (e) => { if (e.target === modal) close(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+})();
+
+// Cases ribbon — CSS-driven marquee; pause on touch since :hover doesn't fire there
+(() => {
+  const ribbon = document.getElementById('case-ribbon');
+  const track = document.getElementById('case-track');
+  if (!ribbon || !track) return;
+  let resumeTimer;
+  const pause = () => {
+    track.classList.add('paused');
+    clearTimeout(resumeTimer);
+    resumeTimer = setTimeout(() => track.classList.remove('paused'), 4000);
+  };
+  ribbon.addEventListener('touchstart', pause, { passive: true });
 })();
 
 // Mobile menu
