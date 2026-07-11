@@ -244,12 +244,12 @@ h1,h2,h3{font-family:"Cormorant Garamond",serif;font-weight:500;line-height:1.06
   background-size:28px 28px, auto, auto;
 }
 .contact-info-section{
-  color:#fff;border-top:1px solid rgba(255,255,255,.08);
-  background-color:#1d2321;
+  border-top:1px solid var(--line);
+  background-color:var(--grey);
   background-image:
-    radial-gradient(circle, rgba(42,173,168,.14) 1.5px, transparent 1.5px),
-    radial-gradient(circle at 90% 8%, rgba(42,173,168,.16), transparent 45%),
-    radial-gradient(circle at 8% 92%, rgba(42,173,168,.12), transparent 50%);
+    radial-gradient(circle, rgba(23,117,113,.10) 1.5px, transparent 1.5px),
+    radial-gradient(circle at 90% 8%, rgba(42,173,168,.12), transparent 45%),
+    radial-gradient(circle at 8% 92%, rgba(42,173,168,.10), transparent 50%);
   background-size:28px 28px, auto, auto;
 }
 .info-stack{display:flex;flex-direction:column;gap:40px;max-width:720px;margin:0 auto}
@@ -277,9 +277,9 @@ h1,h2,h3{font-family:"Cormorant Garamond",serif;font-weight:500;line-height:1.06
 
 #contact-info{scroll-margin-top:84px}
 .contact-info{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:30px 40px;padding-top:8px}
-.info-block h3{font-size:14px;letter-spacing:.16em;text-transform:uppercase;color:var(--teal);font-family:"DM Sans",sans-serif;font-weight:600;margin-bottom:8px}
-.info-block p{font-size:17px;color:rgba(255,255,255,.85);line-height:1.6}
-.info-block a:hover{color:var(--teal)}
+.info-block h3{font-size:14px;letter-spacing:.16em;text-transform:uppercase;color:var(--teal-dark);font-family:"DM Sans",sans-serif;font-weight:600;margin-bottom:8px}
+.info-block p{font-size:17px;color:var(--ink-soft);line-height:1.6}
+.info-block a:hover{color:var(--teal-dark)}
 
 /* ===================== CASES ===================== */
 .cases{
