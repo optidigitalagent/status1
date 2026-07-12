@@ -399,7 +399,7 @@ h1,h2,h3{font-family:"Cormorant Garamond",serif;font-weight:500;line-height:1.06
 .footer-top{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap;padding-bottom:36px;border-bottom:1px solid var(--footer-line)}
 .footer-brand-col{display:flex;flex-direction:column;gap:16px;max-width:280px}
 .footer-tagline{font-size:13.5px;line-height:1.6;color:var(--footer-text)}
-.footer-contact{display:flex;flex-wrap:wrap;gap:24px 40px}
+.footer-contact{display:grid;grid-template-columns:repeat(3,auto);align-items:start;gap:24px 32px}
 .footer-contact-item{display:flex;align-items:center;gap:13px;font-size:13.5px;line-height:1.5;color:var(--footer-text)}
 .footer-ico{
   flex:none;width:36px;height:36px;display:grid;place-items:center;border-radius:4px;
@@ -425,7 +425,7 @@ h1,h2,h3{font-family:"Cormorant Garamond",serif;font-weight:500;line-height:1.06
   .footer{padding-top:32px}
   .footer-top{flex-direction:column;gap:24px;text-align:center}
   .footer-brand-col{max-width:none;align-items:center}
-  .footer-contact{justify-content:center;gap:16px 28px}
+  .footer-contact{grid-template-columns:1fr;justify-items:center;gap:16px 28px}
   .footer-mini{justify-content:center;text-align:center;padding:18px 0}
   .footer-links{justify-content:center}
 }
