@@ -425,7 +425,7 @@ h1,h2,h3{font-family:"Cormorant Garamond",serif;font-weight:500;line-height:1.06
   .footer{padding-top:32px}
   .footer-top{flex-direction:column;gap:24px;text-align:center}
   .footer-brand-col{max-width:none;align-items:center}
-  .footer-contact{grid-template-columns:1fr;justify-items:center;gap:16px 28px}
+  .footer-contact{grid-template-columns:1fr;justify-items:start;align-self:center;gap:16px 28px}
   .footer-mini{justify-content:center;text-align:center;padding:18px 0}
   .footer-links{justify-content:center}
 }
