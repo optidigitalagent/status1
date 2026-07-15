@@ -109,6 +109,58 @@ wireCertRow(document.getElementById('cert-track-2'), -1);
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
 })();
 
+// Cases ribbons — real Cloudinary before/intermediate/after photos, built into cards
+const CASE_PHOTO_BASE = 'https://res.cloudinary.com/detvp6scw/image/upload/f_auto,q_auto,w_1600/bella-dent/cases/';
+const CASES = [
+  { id: '01', name: null, shots: ['before', 'after'] },
+  { id: '02', name: null, shots: ['before', 'intermediate', 'after'] },
+  { id: '03', name: null, shots: ['before', 'after'] },
+  { id: '04', name: null, shots: ['before', 'after'] },
+  { id: '05', name: null, shots: ['before', 'after'] },
+  { id: '06', name: 'Протезування беззубої щелепи', shots: ['before', 'intermediate', 'after'] },
+  { id: '07', name: 'Раннє лікування мезіального прикусу', shots: ['before', 'after'] },
+  { id: '08', name: 'Вініри', shots: ['before', 'after'] },
+  { id: '09', name: 'Вініри', shots: ['before', 'after'] },
+  { id: '10', name: 'Вініри', shots: ['before', 'after'] },
+  { id: '11', name: 'Вініри', shots: ['before', 'after'] },
+  { id: '12', name: 'Вініри', shots: ['before', 'after'] },
+  { id: '13', name: 'Вініри', shots: ['before', 'after'] },
+];
+const CASE_SHOT_LABEL = { before: 'До', intermediate: 'Проміжний результат', after: 'Після' };
+
+function buildCaseCard(c, hidden) {
+  const card = document.createElement('article');
+  card.className = 'case-card';
+  if (hidden) card.setAttribute('aria-hidden', 'true');
+  c.shots.forEach((shot) => {
+    const el = document.createElement('div');
+    el.className = 'case-shot';
+    el.style.backgroundImage = `url("${CASE_PHOTO_BASE}case-${c.id}-${shot}.png")`;
+    const tag = document.createElement('span');
+    tag.className = 'case-tag';
+    tag.textContent = CASE_SHOT_LABEL[shot];
+    el.appendChild(tag);
+    card.appendChild(el);
+  });
+  if (c.name) {
+    const chip = document.createElement('div');
+    chip.className = 'case-chip';
+    chip.textContent = c.name;
+    card.appendChild(chip);
+  }
+  return card;
+}
+
+function fillCaseTrack(trackId, cases) {
+  const track = document.getElementById(trackId);
+  if (!track) return;
+  cases.forEach((c) => track.appendChild(buildCaseCard(c, false)));
+  // duplicate once so the CSS marquee (translateX(-50%)) loops seamlessly
+  cases.forEach((c) => track.appendChild(buildCaseCard(c, true)));
+}
+fillCaseTrack('case-track-1', CASES.filter((_, i) => i % 2 === 0));
+fillCaseTrack('case-track-2', CASES.filter((_, i) => i % 2 === 1));
+
 // Cases ribbons — CSS-driven marquee; pause on touch since :hover doesn't fire there
 function wireCaseRibbon(ribbonId, trackId) {
   const ribbon = document.getElementById(ribbonId);
