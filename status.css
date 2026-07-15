@@ -211,17 +211,17 @@ h1,h2,h3{font-family:"Cormorant Garamond",serif;font-weight:500;line-height:1.06
 .tick::after{content:"";position:absolute;left:7px;top:5px;width:5px;height:9px;border:solid var(--teal);border-width:0 2px 2px 0;transform:rotate(45deg)}
 
 /* ===================== TEAM ===================== */
-.team-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:34px;margin-top:64px;max-width:840px;margin-left:auto;margin-right:auto}
-.doc{text-align:center}
-.doc-ring{
-  width:100%;max-width:220px;margin:0 auto 22px;border-radius:8px;padding:7px;
-  background:#fff;border:1.5px solid var(--teal);box-shadow:0 0 0 7px var(--teal-tint);
-  transition:transform .35s var(--ease),box-shadow .35s var(--ease);
+.team-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;margin-top:64px}
+.doc{
+  text-align:left;background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden;
+  box-shadow:var(--shadow-card);transition:transform .35s var(--ease),box-shadow .35s var(--ease);
 }
-.doc:hover .doc-ring{transform:translateY(-6px);box-shadow:0 0 0 7px rgba(42,173,168,.16),var(--shadow-lift)}
-.doc-avatar{width:100%;height:auto;border-radius:4px;display:block;cursor:zoom-in}
-.doc h3{font-size:25px;margin-bottom:2px}
-.doc-role{font-size:14px;color:var(--teal-dark);letter-spacing:.04em;text-transform:uppercase;font-weight:500}
+.doc:hover{transform:translateY(-6px);box-shadow:var(--shadow-lift)}
+.doc-ring{position:relative;width:100%;aspect-ratio:3/4;background:var(--grey-2);overflow:hidden}
+.doc-avatar{width:100%;height:100%;object-fit:cover;object-position:top center;display:block;cursor:zoom-in}
+.doc figcaption{padding:18px 20px 22px}
+.doc h3{font-size:21px;margin-bottom:3px}
+.doc-role{font-size:13px;color:var(--teal-dark);letter-spacing:.04em;text-transform:uppercase;font-weight:500}
 
 /* ===================== REVIEWS ===================== */
 .reviews{position:relative;background:var(--white);overflow:hidden}
@@ -477,7 +477,7 @@ h1,h2,h3{font-family:"Cormorant Garamond",serif;font-weight:500;line-height:1.06
   .section{padding:84px 0}
   .svc-grid,.rev-grid,.case-grid,.team-grid{grid-template-columns:1fr}
   .svc-wide,.case-wide{grid-column:span 1}
-  .doc-ring{max-width:200px}
+  .team-grid{gap:20px}
   .trust-grid{grid-template-columns:1fr 1fr}
   .trust-item{border-right:none;padding:14px 0!important;border-bottom:1px solid var(--line)}
   .trust-item:nth-child(odd){padding-right:14px!important}
