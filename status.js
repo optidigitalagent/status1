@@ -126,7 +126,10 @@ const CASES = [
   { id: '12', name: 'Вініри', shots: ['before', 'after'] },
   { id: '13', name: 'Вініри', shots: ['before', 'after'] },
 ];
-const CASE_SHOT_LABEL = { before: 'До', intermediate: 'Проміжний результат', after: 'Після' };
+// Intermediate shots show the in-progress photo with no caption — it's not a
+// "result", so labelling it "Проміжний результат" was misleading.
+const CASE_SHOT_LABEL = { before: 'До', after: 'Після' };
+const caseShotUrl = (id, shot) => `${CASE_PHOTO_BASE}case-${id}-${shot}.png`;
 
 function buildCaseCard(c, hidden) {
   const card = document.createElement('article');
@@ -135,11 +138,13 @@ function buildCaseCard(c, hidden) {
   c.shots.forEach((shot) => {
     const el = document.createElement('div');
     el.className = 'case-shot';
-    el.style.backgroundImage = `url("${CASE_PHOTO_BASE}case-${c.id}-${shot}.png")`;
-    const tag = document.createElement('span');
-    tag.className = 'case-tag';
-    tag.textContent = CASE_SHOT_LABEL[shot];
-    el.appendChild(tag);
+    el.style.backgroundImage = `url("${caseShotUrl(c.id, shot)}")`;
+    if (CASE_SHOT_LABEL[shot]) {
+      const tag = document.createElement('span');
+      tag.className = 'case-tag';
+      tag.textContent = CASE_SHOT_LABEL[shot];
+      el.appendChild(tag);
+    }
     card.appendChild(el);
   });
   if (c.name) {
@@ -148,6 +153,7 @@ function buildCaseCard(c, hidden) {
     chip.textContent = c.name;
     card.appendChild(chip);
   }
+  card.addEventListener('click', () => openCaseModal(c));
   return card;
 }
 
@@ -161,21 +167,40 @@ function fillCaseTrack(trackId, cases) {
 fillCaseTrack('case-track-1', CASES.filter((_, i) => i % 2 === 0));
 fillCaseTrack('case-track-2', CASES.filter((_, i) => i % 2 === 1));
 
-// Cases ribbons — CSS-driven marquee; pause on touch since :hover doesn't fire there
-function wireCaseRibbon(ribbonId, trackId) {
-  const ribbon = document.getElementById(ribbonId);
-  const track = document.getElementById(trackId);
-  if (!ribbon || !track) return;
-  let resumeTimer;
-  const pause = () => {
-    track.classList.add('paused');
-    clearTimeout(resumeTimer);
-    resumeTimer = setTimeout(() => track.classList.remove('paused'), 4000);
-  };
-  ribbon.addEventListener('touchstart', pause, { passive: true });
+// Full-size, uncropped case viewer — opens every photo of a case in one row
+// (desktop) or stacked top-to-bottom in order (mobile), never cropped.
+const caseModal = document.getElementById('case-modal');
+const caseModalGallery = document.getElementById('case-modal-gallery');
+const caseModalClose = document.getElementById('case-modal-close');
+function openCaseModal(c) {
+  if (!caseModal || !caseModalGallery) return;
+  caseModalGallery.innerHTML = '';
+  c.shots.forEach((shot) => {
+    const wrap = document.createElement('div');
+    wrap.className = 'case-modal-shot';
+    const img = document.createElement('img');
+    img.src = caseShotUrl(c.id, shot);
+    img.alt = c.name ? `${c.name} — ${CASE_SHOT_LABEL[shot] || shot}` : CASE_SHOT_LABEL[shot] || '';
+    wrap.appendChild(img);
+    if (CASE_SHOT_LABEL[shot]) {
+      const label = document.createElement('span');
+      label.textContent = CASE_SHOT_LABEL[shot];
+      wrap.appendChild(label);
+    }
+    caseModalGallery.appendChild(wrap);
+  });
+  caseModal.classList.add('open');
 }
-wireCaseRibbon('case-ribbon-1', 'case-track-1');
-wireCaseRibbon('case-ribbon-2', 'case-track-2');
+function closeCaseModal() {
+  if (!caseModal) return;
+  caseModal.classList.remove('open');
+  caseModalGallery.innerHTML = '';
+}
+if (caseModal && caseModalGallery && caseModalClose) {
+  caseModalClose.addEventListener('click', closeCaseModal);
+  caseModal.addEventListener('click', (e) => { if (e.target === caseModal) closeCaseModal(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeCaseModal(); });
+}
 
 // Mobile menu
 const burger = document.getElementById('nav-burger');
