@@ -1,6 +1,6 @@
 # AI discovery and citation-readiness baseline
 
-Baseline time: 2026-07-22, Asia/Hebron
+Baseline time: 2026-07-22, Europe/Kyiv
 Market/language: Zaporizhzhia, Ukrainian primary; Russian demand documented separately
 Scope: source and public-response audit only; no automated querying of external AI accounts
 
@@ -8,8 +8,8 @@ Scope: source and public-response audit only; no automated querying of external 
 
 | Surface | Current draft control | Production state | Decision |
 |---|---|---|---|
-| Google AI features | Googlebot allowed; indexable pages allow full snippets | draft robots/sitemap/orthodontics are not deployed | ordinary Search eligibility is the prerequisite; no special AI schema or file added |
-| ChatGPT search | `OAI-SearchBot` explicitly allowed in `robots.txt` | production robots currently returns 404 until deployment | keep search discovery allowed and verify the response after deployment |
+| Google AI features | Googlebot allowed; indexable pages allow full snippets | three canonical pages, robots and sitemap are deployed | ordinary Search eligibility is the prerequisite; no special AI schema or file added |
+| ChatGPT search | `OAI-SearchBot` explicitly allowed in `robots.txt` | production robots returns `200` and permits OAI-SearchBot | keep search discovery allowed; measure citations and referrals after indexation |
 | OpenAI training | GPTBot currently inherits the wildcard allow rule | same | clinic must choose allow/disallow separately; do not conflate this with ChatGPT search discovery |
 | ChatGPT referrals | measurement plan includes `utm_source=chatgpt.com` | analytics access absent | create an analytics segment after access is granted |
 
@@ -19,7 +19,7 @@ Current primary guidance checked on 2026-07-22:
 - [OpenAI crawler documentation](https://developers.openai.com/api/docs/bots): OAI-SearchBot controls search discovery separately from GPTBot training preferences.
 - [OpenAI publisher FAQ](https://help.openai.com/en/articles/12627856-publishers-and-developers-faq): ChatGPT search referrals include `utm_source=chatgpt.com`.
 
-## Citation-readiness changes in the draft
+## Citation-readiness changes in production
 
 - Important clinic facts are visible as text and consistent with Dentist/Service/WebSite JSON-LD.
 - The location uses one stable Maps CID, one address and two confirmed phone numbers.
@@ -41,4 +41,4 @@ Record the exact date, locale/account context, answer, cited URL and limitations
 7. `Які брекети пропонує STATUS у Запоріжжі та скільки вони коштують?`
 8. `Як записатися до стоматології STATUS у Запоріжжі?`
 
-The baseline result is intentionally blank until the permanent-domain pages are deployed and the user authorizes/executes surface testing. Compare classic organic, local and AI referral outcomes separately.
+The permanent-domain technical baseline is live. AI-answer samples remain intentionally blank until the pages are crawled/indexed and a dated, locale-recorded surface test is authorized and executed; a single response must not be presented as a ranking. Compare classic organic, local and AI referral outcomes separately.
