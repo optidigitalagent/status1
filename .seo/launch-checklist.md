@@ -1,18 +1,18 @@
 # Permanent-domain SEO launch checklist
 
-These items are intentionally not hard-coded before the permanent domain is known.
+The repository `CNAME` identifies `status-dent.zp.ua` as the permanent apex hostname. Source configuration is prepared; network and Search Console checks remain launch tasks.
 
 ## Required domain work
 
-- Confirm the exact canonical hostname (`www` or apex).
-- Add the GitHub Pages custom-domain setting and repository `CNAME` file, or confirm the alternative Hosting Ukraine deployment path.
+- Confirm in DNS and GitHub Pages that the apex hostname `status-dent.zp.ua` is final.
+- Confirm the repository `CNAME` and GitHub Pages custom-domain setting both use `status-dent.zp.ua`.
 - Enforce HTTPS and one host/protocol version.
 - Verify the old GitHub Pages URL redirects to the permanent domain.
-- Add an absolute self-canonical to every indexable HTML page.
+- Verify the configured absolute self-canonical on every indexable HTML page.
 - Add absolute `og:url` and social-preview image URLs.
-- Add stable `url` and `@id` values to LocalBusiness, Service and future Person schema.
-- Generate `sitemap.xml` with only canonical 200-status URLs.
-- Add the sitemap URL to `robots.txt`.
+- Verify the configured stable `url` and `@id` values in Dentist and Service schema.
+- Verify `sitemap.xml` contains only canonical 200-status URLs.
+- Verify the sitemap directive in `robots.txt` resolves successfully.
 - Verify a Search Console Domain property and submit the sitemap.
 - Connect the permanent domain to Google Business Profile and consistent public citations.
 

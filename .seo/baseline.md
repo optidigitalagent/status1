@@ -4,7 +4,7 @@ Baseline date: 2026-07-19
 Market: Zaporizhzhia, Ukraine
 Primary language: Ukrainian
 Deployment observed: public GitHub Pages project site
-Implementation state: permanent domain not connected yet
+Implementation state: repository `CNAME` defines `status-dent.zp.ua`; live DNS and HTTPS still require launch verification
 
 ## Business facts used
 
@@ -20,8 +20,8 @@ Implementation state: permanent domain not connected yet
 
 - Existing indexable HTML pages before work: `index.html`, `price.html`
 - Dedicated orthodontics page before work: none
-- Canonical links: absent; deliberately blocked on the permanent-domain dependency
-- XML sitemap: absent; deliberately blocked on the permanent-domain dependency
+- Canonical links before work: absent; configured in the implementation batch for `status-dent.zp.ua`
+- XML sitemap before work: absent; configured in the implementation batch for `status-dent.zp.ua`
 - robots.txt: absent before work
 - JSON-LD blocks: absent before work
 - Main-page H1 count: 1
@@ -41,5 +41,5 @@ No proprietary search-volume, CPC, keyword-difficulty, backlink or rank-history 
 1. Build one evidence-based orthodontics landing page without claiming unconfirmed services.
 2. Improve home-page entity and orthodontic relevance.
 3. Add crawl and AI-search access controls.
-4. Connect the permanent domain, then add canonical URLs and sitemap.
+4. Verify DNS, HTTPS, canonical URLs and sitemap on the permanent domain.
 5. Verify business facts, Google Business Profile, orthodontic offer, cases and reviews before expanding content.

@@ -4,4 +4,4 @@ Allow: /
 User-agent: OAI-SearchBot
 Allow: /
 
-# Sitemap will be added after the permanent domain is connected.
+Sitemap: https://status-dent.zp.ua/sitemap.xml
