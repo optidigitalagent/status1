@@ -1,13 +1,28 @@
 # Permanent-domain SEO launch checklist
 
-The owner confirmed `status-dent.zp.ua` as the permanent apex hostname on 2026-07-22. Source configuration is prepared; network and Search Console checks remain launch tasks.
+The owner confirmed `status-dent.zp.ua` as the permanent apex hostname on 2026-07-22. PR #1 was merged as `efe5a0b072c03988addfc5c0f163d4eaaf807b2c` and the GitHub Pages deployment was verified on the permanent domain. Search Console, external profiles and field-performance data remain pending.
 
 ## Public state observed on 2026-07-22
 
 - DNS resolves the apex to GitHub Pages and HTTP redirects once to HTTPS.
 - The legacy `optidigitalagent.github.io/status1/` URL redirects to the apex.
-- The current production home and price pages return `200`.
-- Draft-PR additions `/robots.txt`, `/sitemap.xml` and `/ortodontiya.html` still return `404`; verify them only after authorized merge/deployment.
+- The production home, `/ortodontiya.html`, `/price.html`, `/robots.txt` and `/sitemap.xml` return `200`.
+- HTTP and the legacy `optidigitalagent.github.io/status1/` URL redirect to `https://status-dent.zp.ua/`.
+- A nonexistent production URL returns a real `404` and the custom recovery page contains `noindex,follow`.
+- All three sitemap URLs return `200`; live canonical URLs and JSON-LD parse successfully.
+
+## Completed launch verification
+
+- [x] Apex DNS and GitHub Pages custom domain resolve correctly.
+- [x] HTTPS is canonical and HTTP redirects to HTTPS.
+- [x] The legacy GitHub Pages URL redirects to the permanent domain.
+- [x] Home, orthodontics and price canonical URLs agree with the sitemap.
+- [x] `robots.txt` returns `200`, allows OAI-SearchBot and links the sitemap.
+- [x] `sitemap.xml` returns `200` and lists only the three canonical `200` pages.
+- [x] Live JSON-LD blocks parse on all three indexable pages.
+- [x] Invalid URLs return `404` with the custom noindex recovery page.
+- [ ] Verify a Search Console Domain property and submit the sitemap.
+- [ ] Measure lab and available field Core Web Vitals after data/tool access.
 
 ## Required domain work
 
