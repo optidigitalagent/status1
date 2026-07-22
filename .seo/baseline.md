@@ -30,7 +30,7 @@ Implementation state: repository `CNAME` defines `status-dent.zp.ua`; live DNS a
 - Main-page images: 46; missing alt attributes: 0
 - Price-page H1 count: 1
 - Broken local links found by the static scanner: 0
-- Form submission endpoint: not present; the current JavaScript only shows a success message locally
+- Form submission endpoint: not present; on 2026-07-22 the non-functional forms and client-only success message were removed and replaced with confirmed telephone booking actions until a secure relay is available
 
 ## SERP sample
 
