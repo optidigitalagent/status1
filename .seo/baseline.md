@@ -65,6 +65,14 @@ Implementation state: `status-dent.zp.ua` resolves to GitHub Pages and serves th
 - The source dispatches a local custom event and pushes to `window.dataLayer` only if an approved analytics implementation creates it; the draft itself transmits nothing and stores no PII.
 - Connected/qualified calls, GBP actions, GSC results and form delivery remain unavailable until the relevant access/integration is supplied.
 
+## Recovery, accessibility and performance baseline — 2026-07-22
+
+- The repository previously had no custom `404.html`; invalid GitHub Pages paths would use the host default and lose clinic navigation/call context.
+- A custom `noindex,follow` 404 template now links to the canonical home, orthodontics and price pages and retains confirmed phone actions without entering the sitemap.
+- Mobile navigation now exposes expanded/hidden state and is inert while closed. Certificate images are keyboard operable and the labelled modal returns focus.
+- The certificate gallery no longer claims recurring training or international attendance; asset ownership/current relevance remains a clinic confirmation item.
+- A public PageSpeed Insights API attempt for the current pre-PR production home returned HTTP `429`; no lab or field score is recorded. The PR requires post-deploy lab checks and field data when available.
+
 ## SERP sample
 
 Sampled on 2026-07-19 for Ukrainian and Russian orthodontic queries in Zaporizhzhia. Organic competitors included ABG, Smart Clinic, Studio Smile, Vidnova Dental, Dental Studio, Chertov Clinic and Happy Dental. The common winning page pattern was a dedicated orthodontics or braces landing page with service detail, doctor information, prices, process and cases.

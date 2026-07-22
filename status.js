@@ -92,17 +92,31 @@ wireCertRow(document.getElementById('cert-track-2'), -1);
   const modalImg = document.getElementById('cert-modal-img');
   const closeBtn = document.getElementById('cert-modal-close');
   if (!modal || !modalImg || !closeBtn) return;
-  function open(src, alt) {
+  let lastTrigger = null;
+  function open(src, alt, trigger) {
+    lastTrigger = trigger;
     modalImg.src = src;
     modalImg.alt = alt;
     modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+    closeBtn.focus();
   }
   function close() {
     modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
     modalImg.src = '';
+    lastTrigger?.focus();
   }
   document.querySelectorAll('.cert-card img').forEach((img) => {
-    img.addEventListener('click', () => open(img.src, img.alt));
+    img.setAttribute('role', 'button');
+    img.setAttribute('tabindex', '0');
+    img.setAttribute('aria-label', `Відкрити: ${img.alt}`);
+    img.addEventListener('click', () => open(img.src, img.alt, img));
+    img.addEventListener('keydown', (event) => {
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+      event.preventDefault();
+      open(img.src, img.alt, img);
+    });
   });
   closeBtn.addEventListener('click', close);
   modal.addEventListener('click', (e) => { if (e.target === modal) close(); });
@@ -116,11 +130,15 @@ burger.addEventListener('click', () => {
   const open = burger.classList.toggle('open');
   mobile.classList.toggle('open', open);
   burger.setAttribute('aria-expanded', open);
+  mobile.setAttribute('aria-hidden', String(!open));
+  mobile.inert = !open;
 });
 mobile.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => {
   burger.classList.remove('open');
   mobile.classList.remove('open');
   burger.setAttribute('aria-expanded', 'false');
+  mobile.setAttribute('aria-hidden', 'true');
+  mobile.inert = true;
 }));
 
 // Scroll-spy — highlight the nav link for the section currently in view

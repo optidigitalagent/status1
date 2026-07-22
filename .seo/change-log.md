@@ -91,3 +91,13 @@ Record one entry per implementation batch.
 - Attribution boundary: a phone click is an intent event, not a connected or qualified call; form success remains server-confirmed only.
 - Validation: pure event-contract tests passed for phone, directions and Instagram payloads; JavaScript syntax and the full SEO validator passed. Local browser checks at 390×844 confirmed the fixed call bar on all three pages with no horizontal overflow, broken images or console warnings/errors.
 - Commit or pull request: `agent/seo-foundation` draft PR #1; GA4/GSC/GBP and external accounts untouched.
+
+## 2026-07-22 — 404 recovery and interaction accessibility
+
+- Before state: no custom GitHub Pages 404; closed mobile navigation remained focusable; the certificate viewer lacked dialog state, keyboard opening and focus return; certificate copy asserted unverified continuing/international education.
+- URLs/templates changed: new `/404.html`, all three primary pages, shared JavaScript, validator and `.seo/` controls.
+- Change: added a noindex recovery page with canonical navigation and phone actions; added menu `aria-controls`, hidden/inert state, labelled modal semantics, keyboard activation and focus restoration; neutralized the unsupported certificate claim; bumped shared CSS/JavaScript cache keys.
+- Page-map decision: future therapy, hygiene and prosthodontics pages are explicitly deferred until distinct first-party evidence and medical review exist; no thin/doorway pages were created.
+- Performance evidence: public PageSpeed API returned `429`, so no score was invented; post-deploy lab and available field validation remain blocked.
+- Validation: SEO/event tests and JavaScript syntax pass; local mobile browser confirms menu state transitions, zero overflow and a visible 404 call CTA. Python's local server does not emulate GitHub Pages custom-404 routing, so the template was tested directly and hosted routing remains post-deploy verification.
+- Commit or pull request: `agent/seo-foundation` draft PR #1; no deployment performed.

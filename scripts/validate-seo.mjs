@@ -39,6 +39,7 @@ for (const file of htmlFiles) {
   const ogWidths = matches(html, /<meta\s+property=["']og:image:width["'][^>]*>/gi);
   const ogHeights = matches(html, /<meta\s+property=["']og:image:height["'][^>]*>/gi);
   const mobileCallBars = matches(html, /<a\b[^>]*class=["'][^"']*mobile-call-bar[^"']*["'][^>]*href=["']tel:\+380983181262["'][^>]*>/gi);
+  const trackingModules = matches(html, /<script\s+type=["']module["']\s+src=["']conversion-tracking\.js\?v=1["']><\/script>/gi);
 
   if (!/<html\s+lang=["']uk["']/i.test(html)) fail(`${file}: expected html lang="uk"`);
   if (titles.length !== 1) fail(`${file}: expected one title, found ${titles.length}`);
@@ -49,6 +50,11 @@ for (const file of htmlFiles) {
     fail(`${file}: incomplete Open Graph image metadata`);
   }
   if (mobileCallBars.length !== 1) fail(`${file}: expected one mobile phone CTA, found ${mobileCallBars.length}`);
+  if (trackingModules.length !== 1) fail(`${file}: expected one conversion tracking module`);
+  if (!/aria-controls=["']nav-mobile["']/.test(html)) fail(`${file}: menu button is missing aria-controls`);
+  if (!/<div\s+class=["']nav-mobile["']\s+id=["']nav-mobile["']\s+aria-hidden=["']true["']\s+inert>/i.test(html)) {
+    fail(`${file}: closed mobile navigation must start aria-hidden and inert`);
+  }
 
   if (canonicals.length === 1) {
     const canonical = canonicals[0][1];
@@ -108,6 +114,20 @@ for (const [pattern, label] of forbiddenPublicPatterns) {
 }
 
 if (canonicalSet.size !== htmlFiles.length) fail('Canonical URLs are not unique across indexable HTML files');
+
+const notFound = read('404.html');
+if (!/<meta\s+name=["']robots["']\s+content=["']noindex,follow["']\s*>/i.test(notFound)) {
+  fail('404.html: expected noindex,follow');
+}
+if (/<link\s+rel=["']canonical["']/i.test(notFound)) fail('404.html: must not declare a canonical URL');
+if (matches(notFound, /<h1(?:\s[^>]*)?>[\s\S]*?<\/h1>/gi).length !== 1) fail('404.html: expected one H1');
+if (!/conversion-tracking\.js\?v=1/.test(notFound)) fail('404.html: conversion tracking module is missing');
+for (const link of matches(notFound, /<a\b[^>]*\bhref=["']([^"']+)["'][^>]*>/gi)) {
+  const href = link[1];
+  if (/^(?:https?:|tel:|mailto:)/i.test(href)) continue;
+  const target = resolveLocalTarget('404.html', href);
+  if (!fs.existsSync(path.join(root, target.file))) fail(`404.html: unresolved local link ${href}`);
+}
 
 const sitemap = read('sitemap.xml');
 const sitemapUrls = new Set(matches(sitemap, /<loc>([^<]+)<\/loc>/g).map((match) => match[1]));

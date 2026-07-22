@@ -41,5 +41,7 @@ The owner confirmed `status-dent.zp.ua` as the permanent apex hostname on 2026-0
 - Structured data parses and matches visible facts.
 - Every sitemap URL returns 200 without a redirect.
 - Desktop and mobile navigation reach the orthodontics page, prices and contacts.
+- Invalid production URLs render the custom `404.html`, keep it `noindex`, and offer working canonical navigation and phone actions.
+- Closed mobile navigation is not focusable; certificate modal is labelled, keyboard operable and returns focus.
 - Forms create a verified lead or are replaced by honest phone/booking actions.
 - Search Console URL Inspection sees the same meaningful text as users.

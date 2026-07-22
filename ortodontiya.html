@@ -25,7 +25,7 @@
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="stylesheet" href="status.css?v=10">
+<link rel="stylesheet" href="status.css?v=11">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -89,11 +89,11 @@
       <a href="./#contact-info">Контакти</a>
     </nav>
     <a href="tel:+380983181262" class="btn btn-fill nav-cta">Подзвонити</a>
-    <button class="nav-burger" id="nav-burger" aria-label="Меню" aria-expanded="false">
+    <button class="nav-burger" id="nav-burger" aria-label="Меню" aria-controls="nav-mobile" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
   </div>
-  <div class="nav-mobile" id="nav-mobile">
+  <div class="nav-mobile" id="nav-mobile" aria-hidden="true" inert>
     <a href="./#services">Послуги</a>
     <a href="ortodontiya.html" aria-current="page">Ортодонтія</a>
     <a href="./#about">Про клініку</a>
@@ -273,6 +273,6 @@
 <a class="mobile-call-bar" href="tel:+380983181262" aria-label="Подзвонити до STATUS за номером +38 098 318 12 62">Подзвонити до STATUS</a>
 
 <script type="module" src="conversion-tracking.js?v=1"></script>
-<script src="status.js?v=9"></script>
+<script src="status.js?v=10"></script>
 </body>
 </html>
