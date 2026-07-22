@@ -1,10 +1,10 @@
 # Permanent-domain SEO launch checklist
 
-The repository `CNAME` identifies `status-dent.zp.ua` as the permanent apex hostname. Source configuration is prepared; network and Search Console checks remain launch tasks.
+The owner confirmed `status-dent.zp.ua` as the permanent apex hostname on 2026-07-22. Source configuration is prepared; network and Search Console checks remain launch tasks.
 
 ## Required domain work
 
-- Confirm in DNS and GitHub Pages that the apex hostname `status-dent.zp.ua` is final.
+- Confirm in DNS and GitHub Pages that the owner-confirmed apex hostname `status-dent.zp.ua` resolves correctly.
 - Confirm the repository `CNAME` and GitHub Pages custom-domain setting both use `status-dent.zp.ua`.
 - Enforce HTTPS and one host/protocol version.
 - Verify the old GitHub Pages URL redirects to the permanent domain.
@@ -20,12 +20,12 @@ The repository `CNAME` identifies `status-dent.zp.ua` as the permanent apex host
 
 - Confirm legal/public clinic name and whether `STATUS` is the exact Google Business Profile name.
 - Confirm all opening hours, including Sunday behavior.
-- Confirm every price, especially the noted ligature metal braces discrepancy.
+- Metal ligature braces confirmed at 17,000 UAH per jaw on 2026-07-22; verify future price changes before publication.
 - Confirm whether the clinic offers aligners, retainers and child orthodontics before creating those pages.
 - Obtain verified orthodontist biography, education, qualifications and professional review of medical copy.
 - Confirm which orthodontic cases have patient consent and who performed each case.
 - Confirm the public source of every visible review; do not add review schema until eligibility and provenance are verified.
-- Connect a real form endpoint and analytics events for phone, form, directions and Instagram clicks.
+- Connect a secure server-side Telegram relay for forms; never expose a bot token in GitHub Pages JavaScript. Add analytics events for phone, verified form, directions and Instagram clicks.
 
 ## Acceptance tests
 

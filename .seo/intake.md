@@ -6,6 +6,7 @@
 - Priority services or products: orthodontics, braces and bite correction; general dentistry remains in scope
 - Primary conversion: confirmed appointment request or phone call
 - Secondary conversions: directions, Instagram contact and price-page visit
+- Planned form destination: Telegram through a secure server-side relay; destination and endpoint are not configured yet
 - Real differentiators: pending verification with the clinic
 - Claims requiring evidence: 15+ years of practice, "0 pain", equipment claims, visible reviews and treatment outcomes
 
@@ -23,7 +24,7 @@
 - Public business name: STATUS
 - Address or service area: вул. Поштова, 161/36, Запоріжжя
 - Phones and hours: +38 (098) 318-12-62; +38 (061) 787-55-11; Mon–Sat 09:00–19:00; Sunday by appointment
-- Google Business Profile: link and ownership state pending
+- Google Business Profile / Maps: https://www.google.com/maps?cid=11625904097192140703; coordinates 47.827689, 35.161495; ownership and verification state still require confirmation
 - Trusted social and directory profiles: https://www.instagram.com/status_dent_zp/; other profiles require verification
 
 ## Evidence and access
@@ -31,7 +32,7 @@
 - Search Console: access and verification pending
 - Analytics: GA4 or equivalent property and conversion setup pending
 - Rank tracking or keyword provider:
-- CRM or lead source:
+- CRM or lead source: Telegram planned; bot token must never be exposed in browser code or committed to the repository
 - Real cases, reviews and permissions: case ownership, patient consent and review sources require verification
 - Qualified reviewers for regulated content: orthodontist review required for medical copy
 

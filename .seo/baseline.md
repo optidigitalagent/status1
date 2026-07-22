@@ -15,6 +15,8 @@ Implementation state: repository `CNAME` defines `status-dent.zp.ua`; live DNS a
 - Hours: Monday–Saturday 09:00–19:00; Sunday by appointment
 - Orthodontist shown on site: Овсій Олена Михайлівна
 - Confirmed orthodontic offer is limited to the current published price list.
+- Confirmed 2026-07-22: metal ligature braces cost 17,000 UAH per jaw.
+- Confirmed 2026-07-22: Google Maps place CID `11625904097192140703`, coordinates 47.827689, 35.161495.
 
 ## Source and rendered-site baseline
 
@@ -41,5 +43,5 @@ No proprietary search-volume, CPC, keyword-difficulty, backlink or rank-history 
 1. Build one evidence-based orthodontics landing page without claiming unconfirmed services.
 2. Improve home-page entity and orthodontic relevance.
 3. Add crawl and AI-search access controls.
-4. Verify DNS, HTTPS, canonical URLs and sitemap on the permanent domain.
+4. Verify DNS, HTTPS, canonical URLs and sitemap on the confirmed permanent domain `status-dent.zp.ua`.
 5. Verify business facts, Google Business Profile, orthodontic offer, cases and reviews before expanding content.
