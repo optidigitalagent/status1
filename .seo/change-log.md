@@ -20,3 +20,8 @@ Record one entry per implementation batch.
 - Confirmed local entity: Google Maps CID `11625904097192140703`, coordinates 47.827689, 35.161495
 - Conversion plan: forms will later deliver to Telegram through a secure server-side endpoint; no destination exists yet
 - Implementation: added `hasMap`, `GeoCoordinates`, exact map embed/link and updated project controls
+
+## 2026-07-22 — ChatGPT Project handoff
+
+- Added `.seo/CHATGPT_PROJECT_START.md` with the complete client brief, confirmed facts, current PR state, blockers and continuation prompt
+- Purpose: start the dedicated `SEO — STATUS` ChatGPT Project without repeating discovery or mixing another client's context
