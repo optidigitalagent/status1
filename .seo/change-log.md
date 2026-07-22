@@ -101,3 +101,16 @@ Record one entry per implementation batch.
 - Performance evidence: public PageSpeed API returned `429`, so no score was invented; post-deploy lab and available field validation remain blocked.
 - Validation: SEO/event tests and JavaScript syntax pass; local mobile browser confirms menu state transitions, zero overflow and a visible 404 call CTA. Python's local server does not emulate GitHub Pages custom-404 routing, so the template was tested directly and hosted routing remains post-deploy verification.
 - Commit or pull request: `agent/seo-foundation` draft PR #1; no deployment performed.
+
+## 2026-07-22 — Permanent-domain production launch
+
+- Authorization: the owner explicitly approved GitHub Pages, merge and deployment.
+- GitHub state: PR #1 was marked ready and merged to `main`; merge commit `efe5a0b072c03988addfc5c0f163d4eaaf807b2c`.
+- Live responses: `/`, `/ortodontiya.html`, `/price.html`, `/robots.txt` and `/sitemap.xml` return `200` on `https://status-dent.zp.ua`.
+- Redirects: HTTP and `https://optidigitalagent.github.io/status1/` redirect to the permanent HTTPS apex.
+- Canonical/index controls: three self-canonicals match the three sitemap URLs; OAI-SearchBot is allowed; the sitemap directive resolves.
+- Structured data: five live JSON-LD blocks across the three indexable pages parse successfully and use the permanent domain.
+- Error handling: a nonexistent URL returns HTTP `404`; the custom recovery page includes `noindex,follow` and working phone actions.
+- Conversion: crawlable phone actions are live; no unverified form-success behavior or Telegram secret was deployed.
+- Remaining dependencies: Search Console/GA4/GBP access, sitemap submission permission, field/lab CWV evidence, medical review, clinic evidence, Telegram relay, GPTBot policy and Russian-language architecture.
+- Evidence time: 2026-07-22 11:38 Europe/Kyiv; public HTTP responses and deployed HTML, robots and sitemap.
