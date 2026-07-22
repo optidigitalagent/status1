@@ -92,115 +92,36 @@ wireCertRow(document.getElementById('cert-track-2'), -1);
   const modalImg = document.getElementById('cert-modal-img');
   const closeBtn = document.getElementById('cert-modal-close');
   if (!modal || !modalImg || !closeBtn) return;
-  function open(src, alt) {
+  let lastTrigger = null;
+  function open(src, alt, trigger) {
+    lastTrigger = trigger;
     modalImg.src = src;
     modalImg.alt = alt;
     modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+    closeBtn.focus();
   }
   function close() {
     modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
     modalImg.src = '';
+    lastTrigger?.focus();
   }
-  document.querySelectorAll('.cert-card img, .doc-avatar').forEach((img) => {
-    img.addEventListener('click', () => open(img.src, img.alt));
+  document.querySelectorAll('.cert-card img').forEach((img) => {
+    img.setAttribute('role', 'button');
+    img.setAttribute('tabindex', '0');
+    img.setAttribute('aria-label', `Відкрити: ${img.alt}`);
+    img.addEventListener('click', () => open(img.src, img.alt, img));
+    img.addEventListener('keydown', (event) => {
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+      event.preventDefault();
+      open(img.src, img.alt, img);
+    });
   });
   closeBtn.addEventListener('click', close);
   modal.addEventListener('click', (e) => { if (e.target === modal) close(); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
 })();
-
-// Cases ribbons — real Cloudinary before/intermediate/after photos, built into cards
-const CASE_PHOTO_BASE = 'https://res.cloudinary.com/detvp6scw/image/upload/f_auto,q_auto,w_1600/bella-dent/cases/';
-const CASES = [
-  { id: '01', name: null, shots: ['before', 'after'] },
-  { id: '02', name: null, shots: ['before', 'intermediate', 'after'] },
-  { id: '03', name: null, shots: ['before', 'after'] },
-  { id: '04', name: null, shots: ['before', 'after'] },
-  { id: '05', name: null, shots: ['before', 'after'] },
-  { id: '06', name: 'Протезування беззубої щелепи', shots: ['before', 'intermediate', 'after'] },
-  { id: '07', name: 'Раннє лікування мезіального прикусу', shots: ['before', 'after'] },
-  { id: '08', name: 'Вініри', shots: ['before', 'after'] },
-  { id: '09', name: 'Вініри', shots: ['before', 'after'] },
-  { id: '10', name: 'Вініри', shots: ['before', 'after'] },
-  { id: '11', name: 'Вініри', shots: ['before', 'after'] },
-  { id: '12', name: 'Вініри', shots: ['before', 'after'] },
-  { id: '13', name: 'Вініри', shots: ['before', 'after'] },
-];
-// Intermediate shots show the in-progress photo with no caption — it's not a
-// "result", so labelling it "Проміжний результат" was misleading.
-const CASE_SHOT_LABEL = { before: 'До', after: 'Після' };
-const caseShotUrl = (id, shot) => `${CASE_PHOTO_BASE}case-${id}-${shot}.png`;
-
-function buildCaseCard(c, hidden) {
-  const card = document.createElement('article');
-  card.className = 'case-card';
-  if (hidden) card.setAttribute('aria-hidden', 'true');
-  c.shots.forEach((shot) => {
-    const el = document.createElement('div');
-    el.className = 'case-shot';
-    el.style.backgroundImage = `url("${caseShotUrl(c.id, shot)}")`;
-    if (CASE_SHOT_LABEL[shot]) {
-      const tag = document.createElement('span');
-      tag.className = 'case-tag';
-      tag.textContent = CASE_SHOT_LABEL[shot];
-      el.appendChild(tag);
-    }
-    card.appendChild(el);
-  });
-  if (c.name) {
-    const chip = document.createElement('div');
-    chip.className = 'case-chip';
-    chip.textContent = c.name;
-    card.appendChild(chip);
-  }
-  card.addEventListener('click', () => openCaseModal(c));
-  return card;
-}
-
-function fillCaseTrack(trackId, cases) {
-  const track = document.getElementById(trackId);
-  if (!track) return;
-  cases.forEach((c) => track.appendChild(buildCaseCard(c, false)));
-  // duplicate once so the CSS marquee (translateX(-50%)) loops seamlessly
-  cases.forEach((c) => track.appendChild(buildCaseCard(c, true)));
-}
-fillCaseTrack('case-track-1', CASES.filter((_, i) => i % 2 === 0));
-fillCaseTrack('case-track-2', CASES.filter((_, i) => i % 2 === 1));
-
-// Full-size, uncropped case viewer — opens every photo of a case in one row
-// (desktop) or stacked top-to-bottom in order (mobile), never cropped.
-const caseModal = document.getElementById('case-modal');
-const caseModalGallery = document.getElementById('case-modal-gallery');
-const caseModalClose = document.getElementById('case-modal-close');
-function openCaseModal(c) {
-  if (!caseModal || !caseModalGallery) return;
-  caseModalGallery.innerHTML = '';
-  c.shots.forEach((shot) => {
-    const wrap = document.createElement('div');
-    wrap.className = 'case-modal-shot';
-    const img = document.createElement('img');
-    img.src = caseShotUrl(c.id, shot);
-    img.alt = c.name ? `${c.name} — ${CASE_SHOT_LABEL[shot] || shot}` : CASE_SHOT_LABEL[shot] || '';
-    wrap.appendChild(img);
-    if (CASE_SHOT_LABEL[shot]) {
-      const label = document.createElement('span');
-      label.textContent = CASE_SHOT_LABEL[shot];
-      wrap.appendChild(label);
-    }
-    caseModalGallery.appendChild(wrap);
-  });
-  caseModal.classList.add('open');
-}
-function closeCaseModal() {
-  if (!caseModal) return;
-  caseModal.classList.remove('open');
-  caseModalGallery.innerHTML = '';
-}
-if (caseModal && caseModalGallery && caseModalClose) {
-  caseModalClose.addEventListener('click', closeCaseModal);
-  caseModal.addEventListener('click', (e) => { if (e.target === caseModal) closeCaseModal(); });
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeCaseModal(); });
-}
 
 // Mobile menu
 const burger = document.getElementById('nav-burger');
@@ -209,36 +130,16 @@ burger.addEventListener('click', () => {
   const open = burger.classList.toggle('open');
   mobile.classList.toggle('open', open);
   burger.setAttribute('aria-expanded', open);
+  mobile.setAttribute('aria-hidden', String(!open));
+  mobile.inert = !open;
 });
 mobile.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => {
   burger.classList.remove('open');
   mobile.classList.remove('open');
   burger.setAttribute('aria-expanded', 'false');
+  mobile.setAttribute('aria-hidden', 'true');
+  mobile.inert = true;
 }));
-
-// Appointment forms — appt-form on index.html, price-form on price.html
-function wireLeadForm(formEl, noteEl) {
-  if (!formEl) return;
-  formEl.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const name = formEl.name.value.trim();
-    const phone = formEl.phone.value.trim();
-    if (!name || !phone) {
-      [formEl.name, formEl.phone].forEach((f) => {
-        if (!f.value.trim()) {
-          f.style.borderColor = '#ffd1d1';
-          f.addEventListener('input', () => { f.style.borderColor = ''; }, { once: true });
-        }
-      });
-      return;
-    }
-    noteEl.hidden = false;
-    formEl.querySelector('button[type="submit"]').textContent = 'Заявку надіслано ✓';
-    setTimeout(() => { formEl.reset(); }, 300);
-  });
-}
-wireLeadForm(document.getElementById('appt-form'), document.getElementById('form-note'));
-wireLeadForm(document.getElementById('price-form'), document.getElementById('price-form-note'));
 
 // Scroll-spy — highlight the nav link for the section currently in view
 (() => {
