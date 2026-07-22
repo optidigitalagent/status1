@@ -36,3 +36,16 @@ Record one entry per implementation batch.
 - Expected effect: an honest, immediately usable primary conversion path; server-backed online forms remain a separate blocked task
 - Acceptance tests: both pages expose the two confirmed `tel:` links; no local form IDs or success copy remain; JavaScript syntax and static HTML checks pass
 - Commit or pull request: `agent/seo-foundation` draft PR #1
+
+## 2026-07-22 — Zaporizhzhia search-demand and page-map consolidation
+
+- Baseline and evidence: current public web-search sample for the seven requested Ukrainian and Russian queries; no GSC, analytics or proprietary keyword-volume provider was available, so numeric volume, difficulty and rankings remain blank
+- Research artifact: `.seo/search-demand-zaporizhzhia-2026-07-22.md` separates languages, intent, journey, competitors, content gaps and the keyword-to-page map with source URLs and limitations
+- URLs/templates changed: `/ortodontiya.html` metadata, Service `serviceType`, hero copy and treatment-options heading; `.seo/backlog.csv` and `.seo/page-map.csv`
+- Architecture decision: consolidated `ортодонт`, `брекети`, `вирівнювання зубів` and `виправлення прикусу` on the existing Ukrainian orthodontics page and removed the proposed duplicate `/brekety-zaporizhzhya/` from the page map
+- Russian-language decision: recorded demand separately but did not create mixed-language copy, an isolated Russian page or a second-language site without an architecture decision
+- Safety: no new medical outcomes, credentials, reviews, cases, unverified prices or competitor claims were added; GBP, GSC, GA4, merge and deployment were untouched
+- Expected effect: clearer alignment between the existing orthodontics page and the overlapping local commercial query cluster, with lower cannibalization risk
+- Acceptance tests: page-map validator, HTML metadata/H1/links/JSON-LD scan, sitemap XML parse, JavaScript syntax, `git diff --check` and final diff review
+- Commit or pull request: `agent/seo-foundation` draft PR #1
+- Review window: 8–12 weeks after deployment and indexation, or sooner when verified Search Console or keyword-provider data becomes available
