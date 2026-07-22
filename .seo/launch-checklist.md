@@ -2,6 +2,13 @@
 
 The owner confirmed `status-dent.zp.ua` as the permanent apex hostname on 2026-07-22. Source configuration is prepared; network and Search Console checks remain launch tasks.
 
+## Public state observed on 2026-07-22
+
+- DNS resolves the apex to GitHub Pages and HTTP redirects once to HTTPS.
+- The legacy `optidigitalagent.github.io/status1/` URL redirects to the apex.
+- The current production home and price pages return `200`.
+- Draft-PR additions `/robots.txt`, `/sitemap.xml` and `/ortodontiya.html` still return `404`; verify them only after authorized merge/deployment.
+
 ## Required domain work
 
 - Confirm in DNS and GitHub Pages that the owner-confirmed apex hostname `status-dent.zp.ua` resolves correctly.

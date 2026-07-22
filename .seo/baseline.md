@@ -1,10 +1,10 @@
 # STATUS SEO baseline
 
-Baseline date: 2026-07-19
+Baseline date: 2026-07-19; network re-check: 2026-07-22 (Asia/Hebron)
 Market: Zaporizhzhia, Ukraine
 Primary language: Ukrainian
-Deployment observed: public GitHub Pages project site
-Implementation state: repository `CNAME` defines `status-dent.zp.ua`; live DNS and HTTPS still require launch verification
+Deployment observed: custom-domain GitHub Pages production plus an unmerged draft-PR implementation
+Implementation state: `status-dent.zp.ua` resolves to GitHub Pages and serves the pre-PR production version; the draft PR remains undeployed
 
 ## Business facts used
 
@@ -31,6 +31,15 @@ Implementation state: repository `CNAME` defines `status-dent.zp.ua`; live DNS a
 - Price-page H1 count: 1
 - Broken local links found by the static scanner: 0
 - Form submission endpoint: not present; on 2026-07-22 the non-functional forms and client-only success message were removed and replaced with confirmed telephone booking actions until a secure relay is available
+
+## Public response baseline — 2026-07-22
+
+- DNS A records resolve `status-dent.zp.ua` to GitHub Pages (`185.199.108.153`–`185.199.111.153`).
+- `http://status-dent.zp.ua/` returns `301` to `https://status-dent.zp.ua/`.
+- `https://status-dent.zp.ua/` and `/price.html` return `200`.
+- The legacy project URL redirects to the permanent domain.
+- `/robots.txt`, `/sitemap.xml` and `/ortodontiya.html` return `404` on production because draft PR #1 has not been merged or deployed.
+- The implementation now aligns homepage internal links with `/`, adds page-specific self-canonicals, complete 1200×630 social-preview metadata, WebSite entity markup and visible/structured breadcrumbs. Production response validation remains post-deployment work.
 
 ## SERP sample
 

@@ -49,3 +49,14 @@ Record one entry per implementation batch.
 - Acceptance tests: page-map validator, HTML metadata/H1/links/JSON-LD scan, sitemap XML parse, JavaScript syntax, `git diff --check` and final diff review
 - Commit or pull request: `agent/seo-foundation` draft PR #1
 - Review window: 8–12 weeks after deployment and indexation, or sooner when verified Search Console or keyword-provider data becomes available
+
+## 2026-07-22 — Canonical, entity and social-preview hardening
+
+- Baseline: the permanent domain resolves to GitHub Pages; HTTP redirects to HTTPS; the home and price pages return `200`, while the undeployed draft-PR assets `/robots.txt`, `/sitemap.xml` and `/ortodontiya.html` return `404`.
+- URLs/templates changed: `/`, `/ortodontiya.html`, `/price.html`, `.seo/backlog.csv`, `.seo/page-map.csv`, `.seo/baseline.md` and `.seo/launch-checklist.md`.
+- Change: replaced internal `/index.html` targets with the canonical root, added complete 1200×630 Open Graph image metadata, upgraded large-card previews, added WebSite identity markup, visible/structured breadcrumbs, explicit logo dimensions and a clean Google Maps CID URL.
+- Reason: make canonical signals agree, reduce duplicate-homepage hints, improve crawlable hierarchy, stabilize logo layout and make the clinic entity/social previews easier to interpret without adding medical claims.
+- Source check: current Google canonical, breadcrumb, LocalBusiness and AI-feature guidance reviewed on 2026-07-22; schema remains limited to visible, confirmed facts.
+- Validation: reusable static validator passed for three HTML pages, three unique canonicals, three matching sitemap URLs, JSON-LD parsing, metadata/H1/image-alt checks, fragments and local links; `node --check status.js` and `git diff --check` also passed.
+- Commit or pull request: `agent/seo-foundation` draft PR #1; deployment intentionally not performed.
+- Review window: response and rich-result checks immediately after an authorized deployment; Search Console observation after indexation.
