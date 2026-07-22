@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "business_name": "STATUS",
+  "domain": "status-dent.zp.ua",
+  "market": "Zaporizhzhia, Ukraine",
+  "primary_language": "uk",
+  "site_type": "local-business",
+  "initialized_on": "2026-07-22",
+  "status": "implementation",
+  "secrets_policy": "Do not store credentials, tokens or private exports in .seo"
+}
