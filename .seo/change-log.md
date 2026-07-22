@@ -60,3 +60,24 @@ Record one entry per implementation batch.
 - Validation: reusable static validator passed for three HTML pages, three unique canonicals, three matching sitemap URLs, JSON-LD parsing, metadata/H1/image-alt checks, fragments and local links; `node --check status.js` and `git diff --check` also passed.
 - Commit or pull request: `agent/seo-foundation` draft PR #1; deployment intentionally not performed.
 - Review window: response and rich-result checks immediately after an authorized deployment; Search Console observation after indexation.
+
+## 2026-07-22 — YMYL evidence and citation-readiness safeguard
+
+- Before state: the draft loaded treatment-case images from a foreign `bella-dent` asset path, displayed testimonials without provenance, and used unsupported experience, pain, equipment, protocol and doctor-credential claims.
+- URLs/templates changed: `/`, `/ortodontiya.html`, `/price.html`, shared JavaScript and `.seo/` evidence controls.
+- Change: removed foreign treatment cases, unverified testimonials and unverified doctor/team claims; replaced absolute promotional claims with confirmed address, phone, hours and price-list facts; removed the stale price-dispute note after the owner-confirmed 17,000 UAH price; added `.seo/evidence-register.csv`.
+- Reason: prevent unsupported YMYL assertions from becoming public or machine-readable, improve entity/citation consistency and preserve a precise restoration path when STATUS-owned evidence arrives.
+- AI/AEO note: no special AI schema or `llms.txt` was added. Current Google guidance says ordinary crawl/index/content fundamentals apply, and OpenAI documents OAI-SearchBot separately from GPTBot training controls.
+- Validation: the static validator now fails on foreign clinic assets, unverified case/review sections and the removed absolute claims; JSON-LD, local links, fragments, metadata, sitemap and JavaScript syntax pass. Local browser checks at 1440×900 and 390×844 found no horizontal overflow, broken images or console errors; all H1s and phone links remained visible.
+- Commit or pull request: `agent/seo-foundation` draft PR #1; no external profile, deployment or medical publication action performed.
+- Restoration dependency: STATUS-owned cases with treatment ownership and patient consent; source URLs for eligible reviews; clinic-approved biographies/credentials; qualified medical review.
+
+## 2026-07-22 — Local entity and AI-discovery control baseline
+
+- Public evidence: sampled Misto, Medinfo, Top20 and Pokupon listings plus direct DNS/HTTP responses; address and phones corroborate, while Sunday hours and a legacy `s-status.com` citation conflict with the desired permanent-domain entity.
+- Artifacts changed: `.seo/local-audit-2026-07-22.md`, `.seo/ai-discovery-baseline.md`, backlog, page map, baseline and evidence register.
+- Decision: retain one homepage for the one confirmed Zaporizhzhia location and one consolidated orthodontics page; do not create doorway locations or a separate Russian page without an architecture/content decision.
+- AI controls: retain explicit OAI-SearchBot access in the draft, leave GPTBot unchanged pending clinic policy, document ChatGPT referral segmentation and reject special AI schema/`llms.txt` claims.
+- External-action boundary: no GBP, directory, GSC, analytics, sitemap-submission or AI-account changes were made.
+- Validation: source URLs and discrepancies recorded with retrieval date; NAP values compared against the website and claim registry.
+- Commit or pull request: `agent/seo-foundation` draft PR #1.

@@ -41,6 +41,23 @@ Implementation state: `status-dent.zp.ua` resolves to GitHub Pages and serves th
 - `/robots.txt`, `/sitemap.xml` and `/ortodontiya.html` return `404` on production because draft PR #1 has not been merged or deployed.
 - The implementation now aligns homepage internal links with `/`, adds page-specific self-canonicals, complete 1200×630 social-preview metadata, WebSite entity markup and visible/structured breadcrumbs. Production response validation remains post-deployment work.
 
+## Evidence-safety baseline — 2026-07-22
+
+- The draft contained treatment-case images loaded from a `bella-dent` Cloudinary path, with no STATUS ownership or patient-consent evidence.
+- Three visible testimonials had no source URL or provenance record.
+- The home page contained unsupported claims about 15+ years of practice, zero pain, equipment, protocols and team experience.
+- The orthodontics page published a named doctor role before credentials and medical review were supplied.
+- These elements were removed or replaced with confirmed contact, price-list and location facts. `.seo/evidence-register.csv` now records claim-level source and verification state.
+
+## Local and AI-discovery baseline — 2026-07-22
+
+- Public citation samples corroborate the address and both phone numbers.
+- Misto lists Sunday as closed while the website says Sunday by appointment; clinic confirmation is required before any website or GBP hours change.
+- A historic Pokupon listing references `www.s-status.com`; correction requires platform ownership/permission and must not revive expired offers.
+- No evidence supports a second location or doorway-style city pages; the homepage remains the sole Zaporizhzhia location target.
+- Draft `robots.txt` explicitly allows OAI-SearchBot. GPTBot inherits the wildcard rule, and the separate training preference is undecided.
+- Production `robots.txt` returns `404` until deployment, so AI/search crawler response verification remains a launch task.
+
 ## SERP sample
 
 Sampled on 2026-07-19 for Ukrainian and Russian orthodontic queries in Zaporizhzhia. Organic competitors included ABG, Smart Clinic, Studio Smile, Vidnova Dental, Dental Studio, Chertov Clinic and Happy Dental. The common winning page pattern was a dedicated orthodontics or braces landing page with service detail, doctor information, prices, process and cases.

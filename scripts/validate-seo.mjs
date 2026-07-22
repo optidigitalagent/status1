@@ -26,9 +26,11 @@ function resolveLocalTarget(sourceFile, href) {
 }
 
 const canonicalSet = new Set();
+const publicSources = [];
 
 for (const file of htmlFiles) {
   const html = read(file);
+  publicSources.push(html);
   const titles = matches(html, /<title>[^<]+<\/title>/gi);
   const descriptions = matches(html, /<meta\s+name=["']description["'][^>]*>/gi);
   const canonicals = matches(html, /<link\s+rel=["']canonical["']\s+href=["']([^"']+)["'][^>]*>/gi);
@@ -85,6 +87,19 @@ for (const file of htmlFiles) {
       }
     }
   }
+}
+
+publicSources.push(read('status.js'));
+const combinedPublicSource = publicSources.join('\n');
+const forbiddenPublicPatterns = [
+  [/bella-dent/i, 'foreign clinic case assets'],
+  [/\bid=["']cases["']/i, 'unverified treatment-case section'],
+  [/\bid=["']reviews["']/i, 'unverified testimonial section'],
+  [/15\s*<i>\+<\/i>[\s\S]{0,80}років практики/i, 'unverified years-in-practice claim'],
+  [/0[\s\S]{0,80}болю на процедурах/i, 'absolute pain-free claim'],
+];
+for (const [pattern, label] of forbiddenPublicPatterns) {
+  if (pattern.test(combinedPublicSource)) fail(`Public source contains ${label}`);
 }
 
 if (canonicalSet.size !== htmlFiles.length) fail('Canonical URLs are not unique across indexable HTML files');
