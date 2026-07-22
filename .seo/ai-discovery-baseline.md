@@ -1,7 +1,7 @@
 # AI discovery and citation-readiness baseline
 
-Baseline time: 2026-07-22, Asia/Hebron  
-Market/language: Zaporizhzhia, Ukrainian primary; Russian demand documented separately  
+Baseline time: 2026-07-22, Asia/Hebron
+Market/language: Zaporizhzhia, Ukrainian primary; Russian demand documented separately
 Scope: source and public-response audit only; no automated querying of external AI accounts
 
 ## Platform controls

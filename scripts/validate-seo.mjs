@@ -38,6 +38,7 @@ for (const file of htmlFiles) {
   const ogImages = matches(html, /<meta\s+property=["']og:image["'][^>]*>/gi);
   const ogWidths = matches(html, /<meta\s+property=["']og:image:width["'][^>]*>/gi);
   const ogHeights = matches(html, /<meta\s+property=["']og:image:height["'][^>]*>/gi);
+  const mobileCallBars = matches(html, /<a\b[^>]*class=["'][^"']*mobile-call-bar[^"']*["'][^>]*href=["']tel:\+380983181262["'][^>]*>/gi);
 
   if (!/<html\s+lang=["']uk["']/i.test(html)) fail(`${file}: expected html lang="uk"`);
   if (titles.length !== 1) fail(`${file}: expected one title, found ${titles.length}`);
@@ -47,6 +48,7 @@ for (const file of htmlFiles) {
   if (ogImages.length !== 1 || ogWidths.length !== 1 || ogHeights.length !== 1) {
     fail(`${file}: incomplete Open Graph image metadata`);
   }
+  if (mobileCallBars.length !== 1) fail(`${file}: expected one mobile phone CTA, found ${mobileCallBars.length}`);
 
   if (canonicals.length === 1) {
     const canonical = canonicals[0][1];
@@ -89,8 +91,11 @@ for (const file of htmlFiles) {
   }
 }
 
-publicSources.push(read('status.js'));
+publicSources.push(read('status.js'), read('conversion-tracking.js'));
 const combinedPublicSource = publicSources.join('\n');
+if (!/status_conversion_intent/.test(combinedPublicSource) || !/status:conversion-intent/.test(combinedPublicSource)) {
+  fail('conversion-tracking.js: conversion-intent event contract is missing');
+}
 const forbiddenPublicPatterns = [
   [/bella-dent/i, 'foreign clinic case assets'],
   [/\bid=["']cases["']/i, 'unverified treatment-case section'],

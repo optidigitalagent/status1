@@ -81,3 +81,13 @@ Record one entry per implementation batch.
 - External-action boundary: no GBP, directory, GSC, analytics, sitemap-submission or AI-account changes were made.
 - Validation: source URLs and discrepancies recorded with retrieval date; NAP values compared against the website and claim registry.
 - Commit or pull request: `agent/seo-foundation` draft PR #1.
+
+## 2026-07-22 — Phone-conversion and measurement preparation
+
+- Before state: phone links worked, but mobile users had no persistent call action and no approved event contract existed; analytics, telephony and CRM access were absent.
+- URLs/templates changed: all three pages, shared CSS/JavaScript, validator, backlog, page map, baseline and measurement plan.
+- Change: added one mobile sticky call CTA per page and a privacy-safe `status_conversion_intent` event dictionary for phone, directions and Instagram clicks. Rebuilt the measurement plan around qualified calls, leading indicators, segments, windows, alerts and decision rules.
+- Privacy boundary: the source does not load analytics, create cookies or transmit data. It pushes only to an already-approved `window.dataLayer` and excludes user-entered or medical data.
+- Attribution boundary: a phone click is an intent event, not a connected or qualified call; form success remains server-confirmed only.
+- Validation: pure event-contract tests passed for phone, directions and Instagram payloads; JavaScript syntax and the full SEO validator passed. Local browser checks at 390×844 confirmed the fixed call bar on all three pages with no horizontal overflow, broken images or console warnings/errors.
+- Commit or pull request: `agent/seo-foundation` draft PR #1; GA4/GSC/GBP and external accounts untouched.

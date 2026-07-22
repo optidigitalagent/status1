@@ -1,7 +1,7 @@
 # Local entity audit — STATUS, Zaporizhzhia
 
-Audit time: 2026-07-22, Asia/Hebron  
-Method: public web results and direct response checks; no logged-in profile changes  
+Audit time: 2026-07-22, Asia/Hebron
+Method: public web results and direct response checks; no logged-in profile changes
 Primary conversion: phone call
 
 ## Confirmed website entity

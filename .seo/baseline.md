@@ -58,6 +58,13 @@ Implementation state: `status-dent.zp.ua` resolves to GitHub Pages and serves th
 - Draft `robots.txt` explicitly allows OAI-SearchBot. GPTBot inherits the wildcard rule, and the separate training preference is undecided.
 - Production `robots.txt` returns `404` until deployment, so AI/search crawler response verification remains a launch task.
 
+## Conversion measurement readiness — 2026-07-22
+
+- Confirmed phone links were already present across the three pages; no analytics library or verified call outcome source was available.
+- The draft now includes one persistent mobile phone CTA per page and a single privacy-safe intent-event contract for phone, directions and Instagram clicks.
+- The source dispatches a local custom event and pushes to `window.dataLayer` only if an approved analytics implementation creates it; the draft itself transmits nothing and stores no PII.
+- Connected/qualified calls, GBP actions, GSC results and form delivery remain unavailable until the relevant access/integration is supplied.
+
 ## SERP sample
 
 Sampled on 2026-07-19 for Ukrainian and Russian orthodontic queries in Zaporizhzhia. Organic competitors included ABG, Smart Clinic, Studio Smile, Vidnova Dental, Dental Studio, Chertov Clinic and Happy Dental. The common winning page pattern was a dedicated orthodontics or braces landing page with service detail, doctor information, prices, process and cases.
