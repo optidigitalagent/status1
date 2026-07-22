@@ -25,3 +25,4 @@ Record one entry per implementation batch.
 
 - Added `.seo/CHATGPT_PROJECT_START.md` with the complete client brief, confirmed facts, current PR state, blockers and continuation prompt
 - Purpose: start the dedicated `SEO — STATUS` ChatGPT Project without repeating discovery or mixing another client's context
+- Added root `AGENTS.md` so Codex automatically loads durable STATUS SEO guidance without a long first prompt
