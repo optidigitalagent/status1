@@ -26,3 +26,13 @@ Record one entry per implementation batch.
 - Added `.seo/CHATGPT_PROJECT_START.md` with the complete client brief, confirmed facts, current PR state, blockers and continuation prompt
 - Purpose: start the dedicated `SEO — STATUS` ChatGPT Project without repeating discovery or mixing another client's context
 - Added root `AGENTS.md` so Codex automatically loads durable STATUS SEO guidance without a long first prompt
+
+## 2026-07-22 — Honest booking fallback before relay integration
+
+- Before state: the home and price forms displayed a successful-submission message entirely in browser JavaScript, although no delivery endpoint existed
+- URLs/templates changed: `/`, `/price.html`, shared JavaScript and CSS
+- Change: replaced the non-functional forms with explicit telephone booking actions and removed the client-only false-success handler
+- Reason: prevent lost leads and avoid claiming delivery that no server confirmed while the secure Telegram relay remains blocked
+- Expected effect: an honest, immediately usable primary conversion path; server-backed online forms remain a separate blocked task
+- Acceptance tests: both pages expose the two confirmed `tel:` links; no local form IDs or success copy remain; JavaScript syntax and static HTML checks pass
+- Commit or pull request: `agent/seo-foundation` draft PR #1

@@ -281,6 +281,13 @@ h1,h2,h3{font-family:"Cormorant Garamond",serif;font-weight:500;line-height:1.06
 .contact-form-wrap .btn-fill::before{background:var(--grey)}
 .contact-form-wrap .btn-fill:hover{color:var(--teal-deep)}
 .form-note{font-size:14px;color:#fff;background:rgba(255,255,255,.16);padding:12px 14px;border-radius:3px;text-align:center}
+.booking-callout{text-align:center}
+.booking-callout h3{font-size:34px;color:#fff}
+.booking-callout>p{margin-top:12px;color:rgba(255,255,255,.78)}
+.booking-phone-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:26px}
+.booking-phone-actions .btn{min-width:220px}
+.booking-phone-actions .btn-ghost{color:#fff;border-color:rgba(255,255,255,.45)}
+.booking-note{font-size:13px}
 
 #contact-info{scroll-margin-top:84px}
 .contact-info{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:30px 40px;padding-top:8px}
@@ -395,6 +402,7 @@ h1,h2,h3{font-family:"Cormorant Garamond",serif;font-weight:500;line-height:1.06
 .price-form .btn-fill{background:#fff;color:var(--teal-deep);font-weight:600}
 .price-form .btn-fill::before{background:var(--grey)}
 .price-form .btn-fill:hover{color:var(--teal-deep)}
+.price-booking-callout{margin-top:26px}
 
 /* Back to top */
 .to-top{position:fixed;right:22px;bottom:22px;width:48px;height:48px;border-radius:50%;background:var(--teal);color:#fff;

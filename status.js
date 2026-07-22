@@ -216,30 +216,6 @@ mobile.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => {
   burger.setAttribute('aria-expanded', 'false');
 }));
 
-// Appointment forms — appt-form on index.html, price-form on price.html
-function wireLeadForm(formEl, noteEl) {
-  if (!formEl) return;
-  formEl.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const name = formEl.name.value.trim();
-    const phone = formEl.phone.value.trim();
-    if (!name || !phone) {
-      [formEl.name, formEl.phone].forEach((f) => {
-        if (!f.value.trim()) {
-          f.style.borderColor = '#ffd1d1';
-          f.addEventListener('input', () => { f.style.borderColor = ''; }, { once: true });
-        }
-      });
-      return;
-    }
-    noteEl.hidden = false;
-    formEl.querySelector('button[type="submit"]').textContent = 'Заявку надіслано ✓';
-    setTimeout(() => { formEl.reset(); }, 300);
-  });
-}
-wireLeadForm(document.getElementById('appt-form'), document.getElementById('form-note'));
-wireLeadForm(document.getElementById('price-form'), document.getElementById('price-form-note'));
-
 // Scroll-spy — highlight the nav link for the section currently in view
 (() => {
   const sections = Array.from(document.querySelectorAll('main > section[id]'));

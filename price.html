@@ -21,7 +21,7 @@
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="stylesheet" href="status.css?v=9">
+<link rel="stylesheet" href="status.css?v=10">
 </head>
 <body>
 
@@ -178,23 +178,14 @@
     <div class="price-cta reveal-up">
       <span class="sec-kicker">Заявка</span>
       <h2 class="sec-title">Залишились питання щодо вартості?</h2>
-      <p class="sec-lede">Залиште заявку — адміністратор передзвонить і підбере зручний час, лікар складе індивідуальний план з фіксованою ціною.</p>
-      <form class="form price-form" id="price-form" novalidate>
-        <div class="field">
-          <label for="pf-name">Ім'я</label>
-          <input id="pf-name" name="name" type="text" placeholder="Ваше ім'я" required>
+      <p class="sec-lede">Зателефонуйте адміністратору, щоб уточнити актуальну вартість і домовитися про консультацію. Індивідуальний план та повну ціну визначає лікар після діагностики.</p>
+      <div class="booking-callout price-booking-callout" aria-label="Телефони для запису">
+        <div class="booking-phone-actions">
+          <a href="tel:+380983181262" class="btn btn-fill">+38 (098) 318-12-62</a>
+          <a href="tel:+380617875511" class="btn btn-ghost">+38 (061) 787-55-11</a>
         </div>
-        <div class="field">
-          <label for="pf-phone">Телефон</label>
-          <input id="pf-phone" name="phone" type="tel" placeholder="+38 (0__) ___-__-__" required>
-        </div>
-        <div class="field">
-          <label for="pf-note">Коментар / послуга</label>
-          <textarea id="pf-note" name="note" rows="3" placeholder="Що вас цікавить? (необов'язково)"></textarea>
-        </div>
-        <button type="submit" class="btn btn-fill btn-block">Відправити заявку</button>
-        <p class="form-note" id="price-form-note" hidden>Дякуємо! Ми зв'яжемося з вами найближчим часом.</p>
-      </form>
+        <p class="booking-note">Онлайн-форма ще не підключена; сайт не повідомляє про відправлення заявки без підтвердження сервера.</p>
+      </div>
     </div>
 
   </div>
@@ -244,6 +235,6 @@
   </div>
 </footer>
 
-<script src="status.js?v=8"></script>
+<script src="status.js?v=9"></script>
 </body>
 </html>
