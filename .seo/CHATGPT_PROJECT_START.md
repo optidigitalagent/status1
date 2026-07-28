@@ -36,9 +36,10 @@ Use SEO Site Operator for this client and continue the existing implementation.
 
 ## Current implementation state
 
-- PR #1 and PR #2 are merged into `main`; the permanent-domain implementation and post-deploy evidence are live
-- Current review branch: `seo/status-facts-and-team`, created from `main` at `10d7fe0`
-- The branch aligns confirmed brand/hours, restores three verified team cards, strengthens orthodontist references and updates current SEO controls
+- PR #1, PR #2 and PR #3 are merged into `main`; production `main` is `28f51d43f3f26e3bb2e943428a0f2a70936c6653`
+- Current review branch: `fix/maps-and-cases`, created from that verified `main` commit
+- Current draft PR: [#4 — Fix Google Maps embed and restore Status cases](https://github.com/optidigitalagent/status1/pull/4)
+- The branch repairs the Google Maps iframe and restores 13 owner-approved case groups from the `qofhq8xa` manifest with neutral labels, an explicit visualization disclosure and no new clinical schema
 - Keep this work in a separate draft PR; do not merge or deploy without explicit approval
 
 ## Known blockers and safeguards
@@ -47,7 +48,7 @@ Use SEO Site Operator for this client and continue the existing implementation.
 - DNS, HTTPS, redirects, canonical responses and sitemap URLs were verified after the 2026-07-22 deployment
 - Forms do not have a real endpoint yet; do not claim that a lead was sent until a server confirms delivery
 - Google Business Profile changes are under review; do not modify the profile in this branch
-- Visible cases require treatment ownership and patient consent verification
+- Case asset URLs were owner-approved on 2026-07-28; clinical provenance, treatment ownership and patient consent remain separate requirements before describing them as real patient outcomes
 - Visible reviews require provenance verification; do not add review or aggregate-rating schema yet
 - Do not invent services, doctors, qualifications, prices, cases, reviews, outcomes, traffic, rankings or backlinks
 - Do not guarantee first place in Google, Maps, ChatGPT or other AI search systems

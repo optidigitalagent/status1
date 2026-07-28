@@ -123,6 +123,141 @@ wireCertRow(document.getElementById('cert-track-2'), -1);
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
 })();
 
+// Cases — two auto-moving ribbons with keyboard-accessible fullscreen viewing.
+(() => {
+  const section = document.getElementById('cases');
+  const modal = document.getElementById('case-modal');
+  const gallery = document.getElementById('case-modal-gallery');
+  const closeBtn = document.getElementById('case-modal-close');
+  if (!section || !modal || !gallery || !closeBtn) return;
+
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let lastTrigger = null;
+
+  if (!reducedMotion) {
+    section.querySelectorAll('.case-track').forEach((track) => {
+      const sequence = track.querySelector('.case-sequence');
+      if (!sequence) return;
+      const duplicate = sequence.cloneNode(true);
+      duplicate.setAttribute('aria-hidden', 'true');
+      duplicate.querySelectorAll('[id]').forEach((element) => element.removeAttribute('id'));
+      duplicate.querySelectorAll('[tabindex]').forEach((element) => element.setAttribute('tabindex', '-1'));
+      track.appendChild(duplicate);
+    });
+  }
+
+  const loadCaseImage = (image) => {
+    const source = image.dataset.src;
+    if (!source) return;
+    image.addEventListener('load', () => {
+      image.classList.add('is-loaded');
+      image.closest('.case-shot')?.classList.add('is-loaded');
+    }, { once: true });
+    image.src = source;
+    delete image.dataset.src;
+  };
+  const caseImages = section.querySelectorAll('.case-shot img[data-src]');
+  if ('IntersectionObserver' in window) {
+    const imageObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        loadCaseImage(entry.target);
+        observer.unobserve(entry.target);
+      });
+    }, { rootMargin: '300px', threshold: 0.01 });
+    caseImages.forEach((image) => imageObserver.observe(image));
+  } else {
+    caseImages.forEach(loadCaseImage);
+  }
+
+  section.querySelectorAll('.case-ribbon').forEach((ribbon) => {
+    let resumeTimer;
+    ribbon.addEventListener('touchstart', () => {
+      ribbon.classList.add('is-paused');
+      clearTimeout(resumeTimer);
+      resumeTimer = setTimeout(() => ribbon.classList.remove('is-paused'), 8000);
+    }, { passive: true });
+  });
+
+  function openCase(card) {
+    lastTrigger = card;
+    gallery.replaceChildren();
+    card.querySelectorAll('.case-shot').forEach((sourceFigure) => {
+      const sourceImage = sourceFigure.querySelector('img');
+      if (!sourceImage) return;
+
+      const figure = document.createElement('figure');
+      figure.className = 'case-modal-shot';
+      const image = document.createElement('img');
+      image.src = sourceImage.dataset.src || sourceImage.currentSrc || sourceImage.src;
+      image.alt = sourceImage.alt;
+      image.decoding = 'async';
+      figure.appendChild(image);
+
+      const sourceCaption = sourceFigure.querySelector('figcaption');
+      if (sourceCaption) figure.appendChild(sourceCaption.cloneNode(true));
+      gallery.appendChild(figure);
+    });
+
+    modal.hidden = false;
+    modal.setAttribute('aria-hidden', 'false');
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    closeBtn.focus();
+  }
+
+  function closeCase() {
+    if (modal.hidden) return;
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+    modal.hidden = true;
+    gallery.replaceChildren();
+    document.body.style.overflow = '';
+    lastTrigger?.focus();
+  }
+
+  section.querySelectorAll('.case-sequence:not([aria-hidden="true"]) [data-case]').forEach((card) => {
+    card.addEventListener('click', () => openCase(card));
+    card.addEventListener('keydown', (event) => {
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+      event.preventDefault();
+      openCase(card);
+    });
+  });
+
+  closeBtn.addEventListener('click', closeCase);
+  modal.addEventListener('click', (event) => { if (event.target === modal) closeCase(); });
+  document.addEventListener('keydown', (event) => {
+    if (modal.hidden) return;
+    if (event.key === 'Escape') {
+      closeCase();
+      return;
+    }
+    if (event.key !== 'Tab') return;
+
+    const focusableElements = Array.from(modal.querySelectorAll(
+      'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [contenteditable="true"], [tabindex]:not([tabindex="-1"])'
+    )).filter((element) => !element.hidden && element.getAttribute('aria-hidden') !== 'true');
+    const firstFocusable = focusableElements[0] || closeBtn;
+    const lastFocusable = focusableElements.at(-1) || closeBtn;
+
+    if (focusableElements.length <= 1) {
+      event.preventDefault();
+      firstFocusable.focus();
+      return;
+    }
+
+    const focusIsOutsideModal = !modal.contains(document.activeElement);
+    if (event.shiftKey && (document.activeElement === firstFocusable || focusIsOutsideModal)) {
+      event.preventDefault();
+      lastFocusable.focus();
+    } else if (!event.shiftKey && (document.activeElement === lastFocusable || focusIsOutsideModal)) {
+      event.preventDefault();
+      firstFocusable.focus();
+    }
+  });
+})();
+
 // Mobile menu
 const burger = document.getElementById('nav-burger');
 const mobile = document.getElementById('nav-mobile');
