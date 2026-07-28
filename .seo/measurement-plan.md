@@ -1,6 +1,6 @@
 # SEO measurement plan
 
-Plan updated: 2026-07-22
+Plan updated: 2026-07-28
 Reporting timezone: pending clinic analytics decision; use `Europe/Kyiv` unless the existing property requires continuity
 Primary market/language: Zaporizhzhia, Ukrainian
 
@@ -35,7 +35,7 @@ Do not send names, entered phone numbers, free-text form contents, URLs containi
 
 | Source | Property/account identifier | Access | Use |
 |---|---|---|---|
-| Google Search Console | pending | blocked | queries, pages, clicks, impressions, CTR, position, indexation and sitemap state |
+| Google Search Console | `status-dent.zp.ua` domain property | connected; performance export/API unavailable in repository | queries, pages, clicks, impressions, CTR, position, indexation and sitemap state |
 | Analytics/GA4 | pending | blocked | landing sessions, event counts, conversion rate and referral source |
 | Google Business Profile | pending | blocked | calls, directions and website clicks |
 | Telephony/CRM | pending | blocked | connected and qualified calls; appointment outcome |

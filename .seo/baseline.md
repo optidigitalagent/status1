@@ -1,19 +1,20 @@
-# STATUS SEO baseline
+# Status SEO baseline
 
 Baseline date: 2026-07-19; network re-check: 2026-07-22 (Asia/Hebron)
 Market: Zaporizhzhia, Ukraine
 Primary language: Ukrainian
-Deployment observed: custom-domain GitHub Pages production plus an unmerged draft-PR implementation
-Implementation state: `status-dent.zp.ua` resolves to GitHub Pages and serves the pre-PR production version; the draft PR remains undeployed
+Deployment observed: custom-domain GitHub Pages production with PR #1 and PR #2 merged on 2026-07-22
+Implementation state: the verified SEO foundation is live; `seo/status-facts-and-team` is a separate undeployed review branch
 
 ## Business facts used
 
-- Public name: STATUS
+- Public name: Status
 - Category: dental clinic
 - Address: вул. Поштова, 161/36, Запоріжжя
 - Phones: +38 (098) 318-12-62, +38 (061) 787-55-11
-- Hours: Monday–Saturday 09:00–19:00; Sunday by appointment
-- Orthodontist shown on site: Овсій Олена Михайлівна
+- Hours: Monday–Saturday 09:00–19:00; Sunday closed (owner-confirmed 2026-07-28)
+- Confirmed orthodontists: Овсій Олена Михайлівна and Андрій Володимирович Лебедєв
+- Confirmed dentist/assistant: Щупак Світлана Петрівна
 - Confirmed orthodontic offer is limited to the current published price list.
 - Confirmed 2026-07-22: metal ligature braces cost 17,000 UAH per jaw.
 - Confirmed 2026-07-22: Google Maps place CID `11625904097192140703`, coordinates 47.827689, 35.161495.
@@ -38,12 +39,12 @@ Implementation state: `status-dent.zp.ua` resolves to GitHub Pages and serves th
 - `http://status-dent.zp.ua/` returns `301` to `https://status-dent.zp.ua/`.
 - `https://status-dent.zp.ua/` and `/price.html` return `200`.
 - The legacy project URL redirects to the permanent domain.
-- `/robots.txt`, `/sitemap.xml` and `/ortodontiya.html` return `404` on production because draft PR #1 has not been merged or deployed.
-- The implementation now aligns homepage internal links with `/`, adds page-specific self-canonicals, complete 1200×630 social-preview metadata, WebSite entity markup and visible/structured breadcrumbs. Production response validation remains post-deployment work.
+- `/robots.txt`, `/sitemap.xml` and `/ortodontiya.html` return `200` on production; a nonexistent URL returns the custom `404` response.
+- Homepage internal links, page-specific self-canonicals, 1200×630 social-preview metadata, WebSite entity markup and visible/structured breadcrumbs were verified after deployment; see `.seo/post-deploy-2026-07-22.md`.
 
 ## Evidence-safety baseline — 2026-07-22
 
-- The draft contained treatment-case images loaded from a `bella-dent` Cloudinary path, with no STATUS ownership or patient-consent evidence.
+- The draft contained treatment-case images loaded from a `bella-dent` Cloudinary path, with no Status ownership or patient-consent evidence.
 - Three visible testimonials had no source URL or provenance record.
 - The home page contained unsupported claims about 15+ years of practice, zero pain, equipment, protocols and team experience.
 - The orthodontics page published a named doctor role before credentials and medical review were supplied.
@@ -52,18 +53,18 @@ Implementation state: `status-dent.zp.ua` resolves to GitHub Pages and serves th
 ## Local and AI-discovery baseline — 2026-07-22
 
 - Public citation samples corroborate the address and both phone numbers.
-- Misto lists Sunday as closed while the website says Sunday by appointment; clinic confirmation is required before any website or GBP hours change.
+- Misto lists Sunday as closed, and the owner confirmed Sunday closure for the website on 2026-07-28; this branch does not change Google Business Profile.
 - A historic Pokupon listing references `www.s-status.com`; correction requires platform ownership/permission and must not revive expired offers.
 - No evidence supports a second location or doorway-style city pages; the homepage remains the sole Zaporizhzhia location target.
 - Draft `robots.txt` explicitly allows OAI-SearchBot. GPTBot inherits the wildcard rule, and the separate training preference is undecided.
-- Production `robots.txt` returns `404` until deployment, so AI/search crawler response verification remains a launch task.
+- Production `robots.txt` returns `200` and explicitly allows OAI-SearchBot; GPTBot preference remains a separate undecided policy item.
 
 ## Conversion measurement readiness — 2026-07-22
 
 - Confirmed phone links were already present across the three pages; no analytics library or verified call outcome source was available.
 - The draft now includes one persistent mobile phone CTA per page and a single privacy-safe intent-event contract for phone, directions and Instagram clicks.
 - The source dispatches a local custom event and pushes to `window.dataLayer` only if an approved analytics implementation creates it; the draft itself transmits nothing and stores no PII.
-- Connected/qualified calls, GBP actions, GSC results and form delivery remain unavailable until the relevant access/integration is supplied.
+- Connected/qualified calls, GBP actions, analytics outcomes and form delivery remain unavailable until the relevant access/integration is supplied; Search Console is connected but no performance export is stored in the repository.
 
 ## Recovery, accessibility and performance baseline — 2026-07-22
 

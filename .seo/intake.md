@@ -1,4 +1,4 @@
-# SEO intake — STATUS
+# SEO intake — Status
 
 ## Business and conversion
 
@@ -21,15 +21,15 @@
 ## Entity and local presence
 
 - Permanent domain: status-dent.zp.ua
-- Public business name: STATUS
+- Public business name: Status
 - Address or service area: вул. Поштова, 161/36, Запоріжжя
-- Phones and hours: +38 (098) 318-12-62; +38 (061) 787-55-11; Mon–Sat 09:00–19:00; Sunday by appointment
+- Phones and hours: +38 (098) 318-12-62; +38 (061) 787-55-11; Mon–Sat 09:00–19:00; Sunday closed
 - Google Business Profile / Maps: https://www.google.com/maps?cid=11625904097192140703; coordinates 47.827689, 35.161495; ownership and verification state still require confirmation
 - Trusted social and directory profiles: https://www.instagram.com/status_dent_zp/; other profiles require verification
 
 ## Evidence and access
 
-- Search Console: access and verification pending
+- Search Console: domain property verified by DNS TXT; sitemap status successful; home, orthodontics and price URLs requested for indexing (owner-confirmed 2026-07-28)
 - Analytics: GA4 or equivalent property and conversion setup pending
 - Rank tracking or keyword provider:
 - CRM or lead source: Telegram planned; bot token must never be exposed in browser code or committed to the repository

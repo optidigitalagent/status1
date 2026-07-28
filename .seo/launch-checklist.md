@@ -1,6 +1,6 @@
 # Permanent-domain SEO launch checklist
 
-The owner confirmed `status-dent.zp.ua` as the permanent apex hostname on 2026-07-22. PR #1 was merged as `efe5a0b072c03988addfc5c0f163d4eaaf807b2c` and the GitHub Pages deployment was verified on the permanent domain. Search Console, external profiles and field-performance data remain pending.
+The owner confirmed `status-dent.zp.ua` as the permanent apex hostname on 2026-07-22. PR #1 was merged as `efe5a0b072c03988addfc5c0f163d4eaaf807b2c` and the GitHub Pages deployment was verified on the permanent domain. Google Business Profile updates remain under review; field-performance data remain pending.
 
 ## Public state observed on 2026-07-22
 
@@ -21,7 +21,8 @@ The owner confirmed `status-dent.zp.ua` as the permanent apex hostname on 2026-0
 - [x] `sitemap.xml` returns `200` and lists only the three canonical `200` pages.
 - [x] Live JSON-LD blocks parse on all three indexable pages.
 - [x] Invalid URLs return `404` with the custom noindex recovery page.
-- [ ] Verify a Search Console Domain property and submit the sitemap.
+- [x] Google Search Console Domain property `status-dent.zp.ua` was verified by DNS TXT (owner-confirmed 2026-07-28).
+- [x] `sitemap.xml` was submitted in Search Console and accepted successfully (owner-confirmed 2026-07-28).
 - [ ] Measure lab and available field Core Web Vitals after data/tool access.
 
 ## Required domain work
@@ -35,13 +36,12 @@ The owner confirmed `status-dent.zp.ua` as the permanent apex hostname on 2026-0
 - Verify the configured stable `url` and `@id` values in Dentist and Service schema.
 - Verify `sitemap.xml` contains only canonical 200-status URLs.
 - Verify the sitemap directive in `robots.txt` resolves successfully.
-- Verify a Search Console Domain property and submit the sitemap.
 - Connect the permanent domain to Google Business Profile and consistent public citations.
 
 ## Required business verification
 
-- Confirm legal/public clinic name and whether `STATUS` is the exact Google Business Profile name.
-- Confirm all opening hours, including Sunday behavior.
+- Website public name confirmed as `Status`; keep visible copy and structured data aligned. Google Business Profile remains under review, so do not claim its verification is complete or change it in this PR.
+- Website hours confirmed as Monday–Saturday 09:00–19:00; Sunday closed. Treat these confirmed website facts separately from the Google Business Profile review state.
 - Metal ligature braces confirmed at 17,000 UAH per jaw on 2026-07-22; verify future price changes before publication.
 - Confirm whether the clinic offers aligners, retainers and child orthodontics before creating those pages.
 - Obtain verified orthodontist biography, education, qualifications and professional review of medical copy.
