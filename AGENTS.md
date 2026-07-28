@@ -6,7 +6,7 @@ This repository contains the Status dental-clinic website and its client-specifi
 
 - Before SEO work, read `.seo/CHATGPT_PROJECT_START.md`, `.seo/project.json`, `.seo/intake.md`, `.seo/backlog.csv`, `.seo/page-map.csv` and `.seo/change-log.md`.
 - Use the reusable SEO Site Operator skills when installed. Route full-program work through `seo-command-center` and use the specialist skills for technical, content, local, AI-discovery, authority and measurement tasks.
-- Continue the existing implementation and draft PR #1 instead of starting a duplicate audit, branch or orthodontics page.
+- Continue the active branch and draft PR documented in `.seo/CHATGPT_PROJECT_START.md`; do not start a duplicate audit, branch or orthodontics page.
 
 ## Working rules
 

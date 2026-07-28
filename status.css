@@ -487,6 +487,9 @@ h1,h2,h3{font-family:"Cormorant Garamond",serif;font-weight:500;line-height:1.06
 .service-cta p{margin-top:12px;color:rgba(255,255,255,.72)}
 .service-cta-actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:flex-end}
 .service-cta .btn-fill{background:#fff;color:var(--teal-deep)}
+.service-cta .btn-fill::before {
+  background: #fff;
+}
 .service-cta .btn-ghost{color:#fff;border-color:rgba(255,255,255,.4)}
 
 @media(max-width:1000px){
