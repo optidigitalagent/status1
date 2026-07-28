@@ -1,6 +1,6 @@
-# STATUS SEO repository guidance
+# Status SEO repository guidance
 
-This repository contains the STATUS dental-clinic website and its client-specific SEO operating state.
+This repository contains the Status dental-clinic website and its client-specific SEO operating state.
 
 ## Required context
 

@@ -38,7 +38,7 @@ Record the exact date, locale/account context, answer, cited URL and limitations
 4. `стоматологія Запоріжжя Поштова`
 5. `ортодонт Запорожье`
 6. `брекеты Запорожье цена`
-7. `Які брекети пропонує STATUS у Запоріжжі та скільки вони коштують?`
-8. `Як записатися до стоматології STATUS у Запоріжжі?`
+7. `Які брекети пропонує Status у Запоріжжі та скільки вони коштують?`
+8. `Як записатися до стоматології Status у Запоріжжі?`
 
 The permanent-domain technical baseline is live. AI-answer samples remain intentionally blank until the pages are crawled/indexed and a dated, locale-recorded surface test is authorized and executed; a single response must not be presented as a ranking. Compare classic organic, local and AI referral outcomes separately.

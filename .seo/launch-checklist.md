@@ -1,6 +1,6 @@
 # Permanent-domain SEO launch checklist
 
-The owner confirmed `status-dent.zp.ua` as the permanent apex hostname on 2026-07-22. PR #1 was merged as `efe5a0b072c03988addfc5c0f163d4eaaf807b2c` and the GitHub Pages deployment was verified on the permanent domain. Search Console, external profiles and field-performance data remain pending.
+The owner confirmed `status-dent.zp.ua` as the permanent apex hostname on 2026-07-22. PR #1 was merged as `efe5a0b072c03988addfc5c0f163d4eaaf807b2c` and the GitHub Pages deployment was verified on the permanent domain. Google Business Profile updates remain under review; field-performance data remain pending.
 
 ## Public state observed on 2026-07-22
 
@@ -40,8 +40,8 @@ The owner confirmed `status-dent.zp.ua` as the permanent apex hostname on 2026-0
 
 ## Required business verification
 
-- Confirm legal/public clinic name and whether `STATUS` is the exact Google Business Profile name.
-- Confirm all opening hours, including Sunday behavior.
+- Website public name confirmed as `Status`; keep visible copy and structured data aligned. Google Business Profile remains under review, so do not claim its verification is complete or change it in this PR.
+- Website hours confirmed as Monday–Saturday 09:00–19:00; Sunday closed. Treat these confirmed website facts separately from the Google Business Profile review state.
 - Metal ligature braces confirmed at 17,000 UAH per jaw on 2026-07-22; verify future price changes before publication.
 - Confirm whether the clinic offers aligners, retainers and child orthodontics before creating those pages.
 - Obtain verified orthodontist biography, education, qualifications and professional review of medical copy.

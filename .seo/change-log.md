@@ -122,6 +122,6 @@ Record one entry per implementation batch.
 - Change: normalized public brand casing, removed Sunday-by-appointment wording, restored three verified team cards, added three matching `Person` employees and postal code to Dentist JSON-LD, added the orthodontist-reference block and team anchor link, clarified the price-page H1 and updated sitemap dates.
 - Safety: no experience, education, credentials, awards, licenses, outcomes or new medical claims were added; legacy role text was not reused; GBP, DNS, Search Console, `main` and production were untouched.
 - Expected effect: stronger local-entity consistency, clearer team evidence and a more useful orthodontics-to-team path without changing canonical architecture or prices.
-- Control-file maintenance: normalized three blocked future page-map actions from unsupported `defer` to valid planned `create`; their proposed status, blockers and instruction not to create thin pages remain unchanged.
+- Control-file safeguard: the three future therapy, hygiene and prosthodontics pages remain `defer`; publication is blocked until the required evidence, qualified medical review and separate owner approval are available. This PR creates no new service pages.
 - Acceptance tests: static SEO validation, JSON-LD/XML parsing, page-map validation, link/fragment checks, JavaScript syntax, desktop/mobile rendering at 360/768/1440 px, menu interaction, overflow check and `git diff --check`.
 - Commit or pull request: `seo/status-facts-and-team`; exact commit SHAs and draft PR URL are recorded in the handoff.
