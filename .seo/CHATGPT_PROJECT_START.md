@@ -38,6 +38,7 @@ Use SEO Site Operator for this client and continue the existing implementation.
 
 - PR #1, PR #2 and PR #3 are merged into `main`; production `main` is `28f51d43f3f26e3bb2e943428a0f2a70936c6653`
 - Current review branch: `fix/maps-and-cases`, created from that verified `main` commit
+- Current draft PR: [#4 — Fix Google Maps embed and restore Status cases](https://github.com/optidigitalagent/status1/pull/4)
 - The branch repairs the Google Maps iframe and restores 13 owner-approved case groups from the `qofhq8xa` manifest with neutral labels, an explicit visualization disclosure and no new clinical schema
 - Keep this work in a separate draft PR; do not merge or deploy without explicit approval
 
