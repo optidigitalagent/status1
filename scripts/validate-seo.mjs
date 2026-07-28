@@ -68,6 +68,56 @@ for (const file of htmlFiles) {
     if (!/\balt=["'][^"']*["']/i.test(image[0])) fail(`${file}: image is missing alt`);
   }
 
+  if (file === 'index.html') {
+    const casesSection = html.match(/<section\b[^>]*\bid=["']cases["'][^>]*>([\s\S]*?)<\/section>/i)?.[0] || '';
+    const caseIds = matches(casesSection, /\bid=["'](case-\d{2})["']/gi).map((match) => match[1]);
+    const expectedCaseIds = Array.from({ length: 13 }, (_, index) => `case-${String(index + 1).padStart(2, '0')}`);
+    for (const id of expectedCaseIds) {
+      const count = caseIds.filter((candidate) => candidate === id).length;
+      if (count !== 1) fail(`index.html: expected ${id} exactly once, found ${count}`);
+    }
+    if (caseIds.length !== expectedCaseIds.length) fail(`index.html: expected 13 case IDs, found ${caseIds.length}`);
+    if (matches(casesSection, /<div\b[^>]*class=["'][^"']*case-card[^"']*["'][^>]*role=["']button["'][^>]*tabindex=["']0["']/gi).length !== 13) {
+      fail('index.html: expected 13 keyboard-focusable case buttons');
+    }
+
+    const caseImages = matches(casesSection, /<img\b[^>]*>/gi).map((match) => match[0]);
+    if (caseImages.length !== 26) fail(`index.html: expected 26 manifest case images, found ${caseImages.length}`);
+    for (const image of caseImages) {
+      if (!/\bdata-src=["']https:\/\/res\.cloudinary\.com\/qofhq8xa\/image\/upload\/f_auto,q_auto,c_limit,w_1600\/cases\/case-\d{2}\/[a-z0-9-]+\.png["']/i.test(image)) {
+        fail('index.html: case image does not use the approved qofhq8xa manifest path');
+      }
+      if (!/\bloading=["']lazy["']/i.test(image)) fail('index.html: case image is not lazy-loaded');
+      if (!/\bdecoding=["']async["']/i.test(image)) fail('index.html: case image is missing async decoding');
+    }
+    if (!/Результат лікування індивідуальний\. Частина зображень оброблена або створена як візуалізація для демонстрації\./.test(casesSection)) {
+      fail('index.html: required individual-result and visualization disclosure is missing');
+    }
+    if (!/<h2\b[^>]*>Кейси до та після<\/h2>/i.test(casesSection)) fail('index.html: cases heading is incorrect');
+    for (const caption of matches(casesSection, /<figcaption>([\s\S]*?)<\/figcaption>/gi)) {
+      for (const label of matches(caption[1], /<span>([^<]+)<\/span>/gi).map((match) => match[1])) {
+        if (!['До', 'Проміжний етап', 'Після'].includes(label)) fail(`index.html: unsupported case label ${label}`);
+      }
+    }
+    const case11 = casesSection.match(/<div\b[^>]*\bid=["']case-11["'][^>]*>([\s\S]*?)<\/div>/i)?.[0] || '';
+    if (/Проміжний етап/.test(case11)) fail('index.html: case-11 must not invent an intermediate stage');
+
+    const mapFrame = html.match(/<iframe\b[^>]*\bsrc=["']https:\/\/www\.google\.com\/maps\/embed\?origin=mfe&amp;pb=!1m3!2m1!1s47\.827689,35\.161495!6i17["'][^>]*><\/iframe>/i)?.[0] || '';
+    if (!mapFrame) fail('index.html: embed-safe coordinates map iframe is missing');
+    if (!/\ballowfullscreen\b/i.test(mapFrame)) fail('index.html: map iframe is missing allowfullscreen');
+    if (!/\bloading=["']lazy["']/i.test(mapFrame)) fail('index.html: map iframe is not lazy-loaded');
+    if (!/\breferrerpolicy=["']strict-origin-when-cross-origin["']/i.test(mapFrame)) fail('index.html: map iframe referrer policy is incorrect');
+    if (!/<a\b[^>]*href=["']https:\/\/www\.google\.com\/maps\?cid=11625904097192140703["'][^>]*>Відкрити маршрут у Google Maps<\/a>/i.test(html)) {
+      fail('index.html: Maps fallback link is missing or incorrect');
+    }
+    if (matches(html, /<a\b[^>]*href=["']#cases["'][^>]*>Кейси<\/a>/gi).length !== 3) {
+      fail('index.html: expected Cases links in desktop nav, mobile nav and footer');
+    }
+    if (!/<div\b[^>]*\bid=["']case-modal["'][^>]*\brole=["']dialog["'][^>]*\baria-modal=["']true["']/i.test(html)) {
+      fail('index.html: case modal dialog semantics are missing');
+    }
+  }
+
   for (const script of matches(html, /<script\s+type=["']application\/ld\+json["']\s*>([\s\S]*?)<\/script>/gi)) {
     try {
       JSON.parse(script[1]);
@@ -104,10 +154,10 @@ if (!/status_conversion_intent/.test(combinedPublicSource) || !/status:conversio
 }
 const forbiddenPublicPatterns = [
   [/bella-dent/i, 'foreign clinic case assets'],
-  [/\bid=["']cases["']/i, 'unverified treatment-case section'],
   [/\bid=["']reviews["']/i, 'unverified testimonial section'],
   [/15\s*<i>\+<\/i>[\s\S]{0,80}років практики/i, 'unverified years-in-practice claim'],
   [/0[\s\S]{0,80}болю на процедурах/i, 'absolute pain-free claim'],
+  [/["']@type["']\s*:\s*["'](?:Review|AggregateRating|MedicalCase)["']/i, 'unsupported case, review or rating schema'],
 ];
 for (const [pattern, label] of forbiddenPublicPatterns) {
   if (pattern.test(combinedPublicSource)) fail(`Public source contains ${label}`);
