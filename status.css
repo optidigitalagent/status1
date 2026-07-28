@@ -307,7 +307,7 @@ h1,h2,h3{font-family:"Cormorant Garamond",serif;font-weight:500;line-height:1.06
   scroll-margin-top:84px;
 }
 .cases-disclaimer{max-width:760px;margin-inline:auto}
-.case-ribbon{margin-top:24px;overflow-x:auto;overflow-y:hidden;width:100%;scrollbar-width:none;overscroll-behavior-inline:contain;touch-action:pan-x;padding:4px 0 12px}
+.case-ribbon{margin-top:24px;overflow-x:auto;overflow-y:hidden;width:100%;scrollbar-width:none;overscroll-behavior-inline:contain;padding:4px 0 12px}
 .case-ribbon::-webkit-scrollbar{display:none}
 .case-ribbon:first-of-type{margin-top:56px}
 .case-track{display:flex;width:max-content;animation:case-scroll 78s linear infinite;will-change:transform}
