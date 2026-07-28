@@ -90,8 +90,11 @@ for (const file of htmlFiles) {
       if (!/\bloading=["']lazy["']/i.test(image)) fail('index.html: case image is not lazy-loaded');
       if (!/\bdecoding=["']async["']/i.test(image)) fail('index.html: case image is missing async decoding');
     }
-    if (!/Результат лікування індивідуальний\. Частина зображень оброблена або створена як візуалізація для демонстрації\./.test(casesSection)) {
+    if (!/Демонстраційні візуалізації\. Зображення не підтверджені як результати лікування конкретних пацієнтів і не гарантують аналогічного результату\./.test(casesSection)) {
       fail('index.html: required individual-result and visualization disclosure is missing');
+    }
+    if (!/Демонстраційна візуалізація/.test(casesSection)) {
+      fail('index.html: required demonstration visualization label is missing');
     }
     if (!/<h2\b[^>]*>Кейси до та після<\/h2>/i.test(casesSection)) fail('index.html: cases heading is incorrect');
     for (const caption of matches(casesSection, /<figcaption>([\s\S]*?)<\/figcaption>/gi)) {

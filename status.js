@@ -227,7 +227,35 @@ wireCertRow(document.getElementById('cert-track-2'), -1);
 
   closeBtn.addEventListener('click', closeCase);
   modal.addEventListener('click', (event) => { if (event.target === modal) closeCase(); });
-  document.addEventListener('keydown', (event) => { if (event.key === 'Escape') closeCase(); });
+  document.addEventListener('keydown', (event) => {
+    if (modal.hidden) return;
+    if (event.key === 'Escape') {
+      closeCase();
+      return;
+    }
+    if (event.key !== 'Tab') return;
+
+    const focusableElements = Array.from(modal.querySelectorAll(
+      'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [contenteditable="true"], [tabindex]:not([tabindex="-1"])'
+    )).filter((element) => !element.hidden && element.getAttribute('aria-hidden') !== 'true');
+    const firstFocusable = focusableElements[0] || closeBtn;
+    const lastFocusable = focusableElements.at(-1) || closeBtn;
+
+    if (focusableElements.length <= 1) {
+      event.preventDefault();
+      firstFocusable.focus();
+      return;
+    }
+
+    const focusIsOutsideModal = !modal.contains(document.activeElement);
+    if (event.shiftKey && (document.activeElement === firstFocusable || focusIsOutsideModal)) {
+      event.preventDefault();
+      lastFocusable.focus();
+    } else if (!event.shiftKey && (document.activeElement === lastFocusable || focusIsOutsideModal)) {
+      event.preventDefault();
+      firstFocusable.focus();
+    }
+  });
 })();
 
 // Mobile menu
