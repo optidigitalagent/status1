@@ -200,6 +200,7 @@ wireCertRow(document.getElementById('cert-track-2'), -1);
     });
 
     modal.hidden = false;
+    modal.scrollTop = 0;
     modal.setAttribute('aria-hidden', 'false');
     modal.classList.add('open');
     document.body.style.overflow = 'hidden';
