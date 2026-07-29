@@ -1,27 +1,27 @@
 (function initializeStatusPriceLoader(root) {
   'use strict';
 
-  // Replace this single value with the deployed Apps Script Web App /exec URL.
-  const PRICE_API_URL = 'PASTE_APPS_SCRIPT_WEB_APP_URL_HERE';
-
+  const SPREADSHEET_ID = '1Vg2jk_p9DQV2KJubMuD7pcGXAB-k9WO4JZty5YTxYCU';
   const SCHEMA_VERSION = 1;
   const REQUEST_TIMEOUT_MS = 7000;
   const MAX_SERVICES_PER_CATEGORY = 500;
   const MAX_NAME_LENGTH = 300;
   const MAX_PRICE_LENGTH = 100;
   const MAX_ID_LENGTH = 100;
-  const CATEGORY_IDS = Object.freeze([
-    'zagalni',
-    'profilaktyka',
-    'parodontologiya',
-    'terapiya',
-    'ortodontiya',
-    'ortopediya',
-    'hirurgiya'
-  ]);
+  const CATEGORY_SHEETS = Object.freeze({
+    zagalni: 'Загальні',
+    profilaktyka: 'Профілактика',
+    parodontologiya: 'Пародонтологія',
+    terapiya: 'Терапія',
+    ortodontiya: 'Ортодонтія',
+    ortopediya: 'Ортопедія',
+    hirurgiya: 'Хірургія'
+  });
+  const CATEGORY_IDS = Object.freeze(Object.keys(CATEGORY_SHEETS));
 
   const HTML_TAG_PATTERN = /<\s*\/?\s*[a-z][^>]*>/i;
   const SCRIPT_LIKE_PATTERN = /(?:javascript\s*:|data\s*:\s*text\/html|on[a-z]+\s*=)/i;
+  let callbackSequence = 0;
 
   class PriceDataError extends Error {
     constructor(message) {
@@ -140,76 +140,178 @@
       replacements.push({ list, rows });
     }
 
-    // Nothing in the visible fallback is changed until all categories and rows are valid.
     for (const replacement of replacements) replacement.list.replaceChildren(...replacement.rows);
     return validated;
   }
 
-  function isConfiguredEndpoint(endpoint) {
-    if (typeof endpoint !== 'string') return false;
-
-    try {
-      const url = new URL(endpoint);
-      return url.protocol === 'https:' &&
-        url.hostname === 'script.google.com' &&
-        /^\/macros\/s\/[^/]+\/exec$/.test(url.pathname);
-    } catch {
-      return false;
-    }
+  function isConfiguredSpreadsheetId(spreadsheetId) {
+    return typeof spreadsheetId === 'string' && /^[a-zA-Z0-9_-]{20,100}$/.test(spreadsheetId);
   }
 
-  function buildRequestUrl(endpoint, now = Date.now) {
-    if (!isConfiguredEndpoint(endpoint)) {
-      throw new PriceDataError('The Apps Script Web App endpoint is not configured.');
+  function isSafeCallbackName(callbackName) {
+    return typeof callbackName === 'string' && /^[A-Za-z_$][A-Za-z0-9_$]*$/.test(callbackName);
+  }
+
+  function buildSheetQueryUrl(spreadsheetId, sheetName, callbackName, now = Date.now) {
+    if (!isConfiguredSpreadsheetId(spreadsheetId)) {
+      throw new PriceDataError('The Google Sheets spreadsheet ID is not configured.');
+    }
+    if (typeof sheetName !== 'string' || !sheetName.trim()) {
+      throw new PriceDataError('A valid sheet name is required.');
+    }
+    if (!isSafeCallbackName(callbackName)) {
+      throw new PriceDataError('A safe response callback name is required.');
     }
 
-    const requestUrl = new URL(endpoint);
+    const requestUrl = new URL(`https://docs.google.com/spreadsheets/d/${spreadsheetId}/gviz/tq`);
+    requestUrl.searchParams.set('headers', '1');
+    requestUrl.searchParams.set('sheet', sheetName);
+    requestUrl.searchParams.set('tq', 'select A, B, C');
+    requestUrl.searchParams.set('tqx', `responseHandler:${callbackName}`);
     requestUrl.searchParams.set('_price_cache', String(now()));
     return requestUrl.toString();
   }
 
-  async function fetchPricePayload(options = {}) {
-    const endpoint = options.endpoint === undefined ? PRICE_API_URL : options.endpoint;
-    const fetchImpl = options.fetchImpl || (root.fetch && root.fetch.bind(root));
-    const AbortControllerImpl = options.AbortControllerImpl || root.AbortController;
+  function cellToText(cell) {
+    if (!cell || typeof cell !== 'object') return '';
+    const value = cell.f !== undefined && cell.f !== null ? cell.f : cell.v;
+    return value === undefined || value === null ? '' : String(value).trim();
+  }
+
+  function parseGvizResponse(response, categoryId) {
+    if (!isPlainObject(response) || response.status !== 'ok') {
+      throw new PriceDataError(`Google Sheets returned an invalid response for ${categoryId}.`);
+    }
+    if (!isPlainObject(response.table) || !Array.isArray(response.table.rows)) {
+      throw new PriceDataError(`Google Sheets rows are missing for ${categoryId}.`);
+    }
+
+    const services = [];
+    for (let index = 0; index < response.table.rows.length; index += 1) {
+      const row = response.table.rows[index];
+      if (!isPlainObject(row) || !Array.isArray(row.c)) continue;
+
+      const rawId = cellToText(row.c[0]);
+      const rawName = cellToText(row.c[1]);
+      const rawPrice = cellToText(row.c[2]);
+
+      if (!rawName && !rawPrice) continue;
+      if (!rawName || !rawPrice) continue;
+
+      const generatedId = `${categoryId}-row-${index + 2}`;
+      const id = /^[a-z0-9_-]{1,100}$/i.test(rawId) ? rawId : generatedId;
+      services.push({
+        id,
+        name: validateText(rawName, `${categoryId}[${index}].name`, MAX_NAME_LENGTH),
+        price: validateText(rawPrice, `${categoryId}[${index}].price`, MAX_PRICE_LENGTH)
+      });
+
+      if (services.length > MAX_SERVICES_PER_CATEGORY) {
+        throw new PriceDataError(`${categoryId} contains too many services.`);
+      }
+    }
+
+    return Object.freeze(services.map((service) => Object.freeze(service)));
+  }
+
+  function querySheet(options = {}) {
+    const spreadsheetId = options.spreadsheetId === undefined ? SPREADSHEET_ID : options.spreadsheetId;
+    const sheetName = options.sheetName;
+    const documentRef = options.documentRef || root.document;
     const setTimeoutImpl = options.setTimeoutImpl || (root.setTimeout && root.setTimeout.bind(root));
     const clearTimeoutImpl = options.clearTimeoutImpl || (root.clearTimeout && root.clearTimeout.bind(root));
     const timeoutMs = options.timeoutMs === undefined ? REQUEST_TIMEOUT_MS : options.timeoutMs;
+    const now = options.now || Date.now;
 
-    if (typeof fetchImpl !== 'function') throw new PriceDataError('Fetch is unavailable.');
-    if (typeof AbortControllerImpl !== 'function') throw new PriceDataError('AbortController is unavailable.');
+    if (!documentRef || typeof documentRef.createElement !== 'function') {
+      return Promise.reject(new PriceDataError('A valid document is required to query Google Sheets.'));
+    }
     if (typeof setTimeoutImpl !== 'function' || typeof clearTimeoutImpl !== 'function') {
-      throw new PriceDataError('Timer APIs are unavailable.');
+      return Promise.reject(new PriceDataError('Timer APIs are unavailable.'));
     }
 
-    const requestUrl = buildRequestUrl(endpoint, options.now || Date.now);
-    const controller = new AbortControllerImpl();
-    const timer = setTimeoutImpl(() => controller.abort(), timeoutMs);
+    const scriptParent = documentRef.head || documentRef.documentElement || documentRef.body;
+    if (!scriptParent || typeof scriptParent.appendChild !== 'function') {
+      return Promise.reject(new PriceDataError('The document cannot load the Google Sheets response.'));
+    }
 
-    try {
-      const response = await fetchImpl(requestUrl, {
-        cache: 'no-store',
-        credentials: 'omit',
-        headers: { Accept: 'application/json' },
-        redirect: 'follow',
-        signal: controller.signal
-      });
+    callbackSequence += 1;
+    const callbackName = `__statusPriceSheet${Date.now()}_${callbackSequence}`;
+    const script = documentRef.createElement('script');
+    script.async = true;
+    script.referrerPolicy = 'no-referrer';
+    script.src = buildSheetQueryUrl(spreadsheetId, sheetName, callbackName, now);
 
-      if (!response || !response.ok) {
-        throw new PriceDataError(`Price endpoint returned HTTP ${response ? response.status : 'unknown'}.`);
-      }
+    return new Promise((resolve, reject) => {
+      let settled = false;
+      let timer;
 
-      let payload;
+      const cleanup = () => {
+        if (timer !== undefined) clearTimeoutImpl(timer);
+        try {
+          delete root[callbackName];
+        } catch {
+          root[callbackName] = undefined;
+        }
+        if (typeof script.remove === 'function') script.remove();
+        else if (script.parentNode && typeof script.parentNode.removeChild === 'function') {
+          script.parentNode.removeChild(script);
+        }
+      };
+
+      const finish = (error, response) => {
+        if (settled) return;
+        settled = true;
+        cleanup();
+        if (error) reject(error);
+        else resolve(response);
+      };
+
+      root[callbackName] = (response) => finish(null, response);
+      script.onerror = () => finish(new PriceDataError(`Google Sheets request failed for ${sheetName}.`));
+      timer = setTimeoutImpl(
+        () => finish(new PriceDataError(`Google Sheets request timed out for ${sheetName}.`)),
+        timeoutMs
+      );
+
       try {
-        payload = await response.json();
-      } catch {
-        throw new PriceDataError('Price endpoint returned invalid JSON.');
+        scriptParent.appendChild(script);
+      } catch (error) {
+        finish(error instanceof Error ? error : new PriceDataError('Google Sheets request failed.'));
       }
+    });
+  }
 
-      return validatePricePayload(payload);
-    } finally {
-      clearTimeoutImpl(timer);
+  async function fetchPricePayload(options = {}) {
+    const spreadsheetId = options.spreadsheetId === undefined ? SPREADSHEET_ID : options.spreadsheetId;
+    if (!isConfiguredSpreadsheetId(spreadsheetId)) {
+      throw new PriceDataError('The Google Sheets spreadsheet ID is not configured.');
     }
+
+    const querySheetImpl = options.querySheetImpl || ((queryOptions) => querySheet(queryOptions));
+    const categories = {};
+
+    const categoryEntries = await Promise.all(
+      Object.entries(CATEGORY_SHEETS).map(async ([categoryId, sheetName]) => {
+        const response = await querySheetImpl({
+          spreadsheetId,
+          sheetName,
+          documentRef: options.documentRef,
+          timeoutMs: options.timeoutMs,
+          setTimeoutImpl: options.setTimeoutImpl,
+          clearTimeoutImpl: options.clearTimeoutImpl,
+          now: options.now
+        });
+        return [categoryId, parseGvizResponse(response, categoryId)];
+      })
+    );
+
+    for (const [categoryId, services] of categoryEntries) categories[categoryId] = services;
+    return validatePricePayload({
+      schemaVersion: SCHEMA_VERSION,
+      updatedAt: new Date().toISOString(),
+      categories
+    });
   }
 
   async function loadPrices(options = {}) {
@@ -230,13 +332,17 @@
 
   const api = Object.freeze({
     CATEGORY_IDS,
-    PRICE_API_URL,
+    CATEGORY_SHEETS,
+    SPREADSHEET_ID,
     PriceDataError,
-    buildRequestUrl,
+    buildSheetQueryUrl,
+    cellToText,
     createPriceRow,
     fetchPricePayload,
-    isConfiguredEndpoint,
+    isConfiguredSpreadsheetId,
     loadPrices,
+    parseGvizResponse,
+    querySheet,
     renderPricePayload,
     validatePricePayload
   });
