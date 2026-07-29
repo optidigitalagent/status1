@@ -1,10 +1,10 @@
 import assert from 'node:assert/strict';
 import { createRequire } from 'node:module';
+import fs from 'node:fs/promises';
 import test from 'node:test';
 
 const require = createRequire(import.meta.url);
 const loader = require('../price-loader.js');
-const endpoint = 'https://script.google.com/macros/s/status-price-test-deployment/exec';
 
 class FakeElement {
   constructor(tagName) {
@@ -76,8 +76,23 @@ function buildPayload(categoryOverrides = {}, rootOverrides = {}) {
   };
 }
 
-function okResponse(payload) {
-  return { ok: true, status: 200, json: async () => payload };
+function gvizResponse(rows) {
+  return {
+    status: 'ok',
+    table: {
+      rows: rows.map((values) => ({
+        c: values.map((value) => value === null ? null : { v: value })
+      }))
+    }
+  };
+}
+
+function defaultSheetRows() {
+  return [['row-001', 'Тестова послуга', '100 грн']];
+}
+
+function queryAllSheets(overrides = {}) {
+  return async ({ sheetName }) => gvizResponse(overrides[sheetName] || defaultSheetRows());
 }
 
 function listRows(documentRef, categoryId) {
@@ -86,82 +101,95 @@ function listRows(documentRef, categoryId) {
 
 const silentLogger = { warn() {} };
 
-test('loads valid JSON and preserves all seven allowlisted categories', async () => {
+test('loads all seven fixed Google Sheets tabs', async () => {
   const documentRef = new FakeDocument();
-  let requestedUrl = '';
-  let requestOptions;
+  const requestedSheets = [];
   const loaded = await loader.loadPrices({
     documentRef,
-    endpoint,
-    fetchImpl: async (url, options) => {
-      requestedUrl = url;
-      requestOptions = options;
-      return okResponse(buildPayload());
+    querySheetImpl: async ({ sheetName }) => {
+      requestedSheets.push(sheetName);
+      return gvizResponse(defaultSheetRows());
     },
-    logger: silentLogger,
-    now: () => 12345
+    logger: silentLogger
   });
 
   assert.equal(loaded, true);
+  assert.deepEqual(requestedSheets.sort(), Object.values(loader.CATEGORY_SHEETS).sort());
   assert.equal(Object.keys(documentRef.snapshot()).length, 7);
-  assert.match(requestedUrl, /_price_cache=12345/);
-  assert.equal(requestOptions.cache, 'no-store');
-  assert.equal(requestOptions.credentials, 'omit');
 });
 
-test('applies changed service names and prices', () => {
-  const documentRef = new FakeDocument();
-  loader.renderPricePayload(documentRef, buildPayload({
-    zagalni: [{ id: 'zagalni-001', name: 'Оновлена консультація', price: '450 грн' }]
-  }));
-  assert.deepEqual(listRows(documentRef, 'zagalni'), [['Оновлена консультація', '450 грн']]);
+test('builds a fixed Google Visualization query URL', () => {
+  const url = new URL(loader.buildSheetQueryUrl(
+    loader.SPREADSHEET_ID,
+    'Ортодонтія',
+    '__statusPriceTest',
+    () => 12345
+  ));
+
+  assert.equal(url.hostname, 'docs.google.com');
+  assert.equal(url.pathname, `/spreadsheets/d/${loader.SPREADSHEET_ID}/gviz/tq`);
+  assert.equal(url.searchParams.get('headers'), '1');
+  assert.equal(url.searchParams.get('sheet'), 'Ортодонтія');
+  assert.equal(url.searchParams.get('tq'), 'select A, B, C');
+  assert.equal(url.searchParams.get('tqx'), 'responseHandler:__statusPriceTest');
+  assert.equal(url.searchParams.get('_price_cache'), '12345');
 });
 
-test('adds and deletes services by replacing one complete category list', () => {
+test('parses changed service names and prices from sheet cells', () => {
+  const services = loader.parseGvizResponse(gvizResponse([
+    ['zagalni-001', 'Оновлена консультація', '450 грн']
+  ]), 'zagalni');
+
+  assert.deepEqual(services, [{
+    id: 'zagalni-001',
+    name: 'Оновлена консультація',
+    price: '450 грн'
+  }]);
+});
+
+test('supports adding, deleting and reordering services', () => {
+  const services = loader.parseGvizResponse(gvizResponse([
+    ['zagalni-003', 'Третя', '300 грн'],
+    ['zagalni-001', 'Перша', '100 грн'],
+    ['zagalni-002', 'Друга', '200 грн']
+  ]), 'zagalni');
+
+  assert.deepEqual(services.map((service) => service.name), ['Третя', 'Перша', 'Друга']);
+  assert.equal(services.length, 3);
+});
+
+test('ignores blank and incomplete editing rows', () => {
+  const services = loader.parseGvizResponse(gvizResponse([
+    [null, null, null],
+    [null, 'Нова послуга', null],
+    [null, null, '500 грн'],
+    [null, 'Готова послуга', '500 грн']
+  ]), 'zagalni');
+
+  assert.equal(services.length, 1);
+  assert.equal(services[0].name, 'Готова послуга');
+});
+
+test('generates a safe display ID when column A is empty', () => {
+  const services = loader.parseGvizResponse(gvizResponse([
+    [null, 'Нова послуга', '500 грн']
+  ]), 'terapiya');
+
+  assert.equal(services[0].id, 'terapiya-row-2');
+});
+
+test('renders complete categories atomically', () => {
   const documentRef = new FakeDocument();
   loader.renderPricePayload(documentRef, buildPayload({
     zagalni: [
       { id: 'zagalni-001', name: 'Перша', price: '100 грн' },
       { id: 'zagalni-002', name: 'Нова послуга', price: '200 грн' }
-    ]
-  }));
-  assert.equal(listRows(documentRef, 'zagalni').length, 2);
-
-  loader.renderPricePayload(documentRef, buildPayload({
-    zagalni: [{ id: 'zagalni-002', name: 'Нова послуга', price: '200 грн' }]
-  }));
-  assert.deepEqual(listRows(documentRef, 'zagalni'), [['Нова послуга', '200 грн']]);
-});
-
-test('preserves Google Sheets row order and supports an empty category', () => {
-  const documentRef = new FakeDocument();
-  loader.renderPricePayload(documentRef, buildPayload({
-    zagalni: [
-      { id: 'zagalni-003', name: 'Третя', price: '300 грн' },
-      { id: 'zagalni-001', name: 'Перша', price: '100 грн' },
-      { id: 'zagalni-002', name: 'Друга', price: '200 грн' }
     ],
     hirurgiya: []
   }));
 
-  assert.deepEqual(listRows(documentRef, 'zagalni').map((row) => row[0]), ['Третя', 'Перша', 'Друга']);
+  assert.equal(listRows(documentRef, 'zagalni').length, 2);
   assert.deepEqual(listRows(documentRef, 'hirurgiya'), []);
-});
-
-test('rejects empty service rows without changing the static fallback', async () => {
-  const documentRef = new FakeDocument();
-  const before = documentRef.snapshot();
-  const loaded = await loader.loadPrices({
-    documentRef,
-    endpoint,
-    fetchImpl: async () => okResponse(buildPayload({
-      zagalni: [{ id: 'zagalni-002', name: '  ', price: '400 грн' }]
-    })),
-    logger: silentLogger
-  });
-
-  assert.equal(loaded, false);
-  assert.deepEqual(documentRef.snapshot(), before);
 });
 
 test('rejects unknown and missing categories atomically', () => {
@@ -174,78 +202,41 @@ test('rejects unknown and missing categories atomically', () => {
   assert.throws(() => loader.validatePricePayload(missing), /Missing category/);
 });
 
-test('rejects invalid category, service, name and price value types', () => {
+test('rejects malformed Google Visualization responses', () => {
+  assert.throws(() => loader.parseGvizResponse({}, 'zagalni'), /invalid response/);
+  assert.throws(
+    () => loader.parseGvizResponse({ status: 'ok', table: {} }, 'zagalni'),
+    /rows are missing/
+  );
+});
+
+test('rejects invalid payload value types and schema versions', () => {
   assert.throws(
     () => loader.validatePricePayload(buildPayload({ zagalni: {} })),
     /must be an array/
   );
   assert.throws(
-    () => loader.validatePricePayload(buildPayload({ zagalni: ['not an object'] })),
-    /must be an object/
-  );
-  assert.throws(
-    () => loader.validatePricePayload(buildPayload({
-      zagalni: [{ id: 'zagalni-001', name: 400, price: '400 грн' }]
-    })),
-    /name must be a string/
-  );
-  assert.throws(
-    () => loader.validatePricePayload(buildPayload({
-      zagalni: [{ id: 'zagalni-001', name: 'Консультація', price: 400 }]
-    })),
-    /price must be a string/
-  );
-});
-
-test('rejects a wrong or absent schema version', () => {
-  assert.throws(
     () => loader.validatePricePayload(buildPayload({}, { schemaVersion: 2 })),
     /Unsupported schemaVersion/
   );
+});
+
+test('rejects markup, script-like and excessive sheet values', () => {
   assert.throws(
-    () => loader.validatePricePayload(buildPayload({}, { schemaVersion: undefined })),
-    /Unsupported schemaVersion/
+    () => loader.parseGvizResponse(gvizResponse([
+      ['zagalni-001', '<script>alert(1)</script>', '400 грн']
+    ]), 'zagalni'),
+    /markup or script-like content/
+  );
+  assert.throws(
+    () => loader.parseGvizResponse(gvizResponse([
+      ['zagalni-001', 'Д'.repeat(301), '400 грн']
+    ]), 'zagalni'),
+    /too long/
   );
 });
 
-test('rejects damaged JSON and HTTP errors', async () => {
-  await assert.rejects(
-    loader.fetchPricePayload({
-      endpoint,
-      fetchImpl: async () => ({
-        ok: true,
-        status: 200,
-        json: async () => { throw new SyntaxError('bad JSON'); }
-      })
-    }),
-    /invalid JSON/
-  );
-
-  await assert.rejects(
-    loader.fetchPricePayload({
-      endpoint,
-      fetchImpl: async () => ({ ok: false, status: 503 })
-    }),
-    /HTTP 503/
-  );
-});
-
-test('aborts a timed-out request', async () => {
-  const neverCompletes = (_url, { signal }) => new Promise((_resolve, reject) => {
-    signal.addEventListener('abort', () => {
-      const error = new Error('aborted');
-      error.name = 'AbortError';
-      reject(error);
-    }, { once: true });
-  });
-
-  await assert.rejects(
-    loader.fetchPricePayload({ endpoint, fetchImpl: neverCompletes, timeoutMs: 5 }),
-    /aborted/
-  );
-});
-
-test('uses textContent for XSS-like values and never creates executable markup', () => {
+test('uses textContent and never creates executable markup', () => {
   const documentRef = new FakeDocument();
   const row = loader.createPriceRow(documentRef, {
     name: '<script>alert(1)</script>',
@@ -255,48 +246,28 @@ test('uses textContent for XSS-like values and never creates executable markup',
   assert.equal(row.children[0].textContent, '<script>alert(1)</script>');
   assert.equal(row.children[1].textContent, '<img src=x onerror=alert(1)>');
   assert.equal(row.children.length, 2);
-  assert.throws(
-    () => loader.validatePricePayload(buildPayload({
-      zagalni: [{ id: 'zagalni-001', name: '<script>alert(1)</script>', price: '400 грн' }]
-    })),
-    /markup or script-like content/
-  );
 });
 
-test('rejects HTML tags and excessive values', () => {
-  assert.throws(
-    () => loader.validatePricePayload(buildPayload({
-      zagalni: [{ id: 'zagalni-001', name: '<b>Консультація</b>', price: '400 грн' }]
-    })),
-    /markup or script-like content/
-  );
-  assert.throws(
-    () => loader.validatePricePayload(buildPayload({
-      zagalni: [{ id: 'zagalni-001', name: 'Д'.repeat(301), price: '400 грн' }]
-    })),
-    /too long/
-  );
-});
-
-test('rejects an absent or invalid endpoint before making a request', async () => {
-  let fetchCalled = false;
+test('rejects an absent or invalid spreadsheet ID', async () => {
+  assert.equal(loader.isConfiguredSpreadsheetId('bad'), false);
   await assert.rejects(
     loader.fetchPricePayload({
-      endpoint: loader.PRICE_API_URL,
-      fetchImpl: async () => { fetchCalled = true; return okResponse(buildPayload()); }
+      spreadsheetId: 'bad',
+      querySheetImpl: queryAllSheets()
     }),
-    /endpoint is not configured/
+    /spreadsheet ID is not configured/
   );
-  assert.equal(fetchCalled, false);
 });
 
-test('keeps the static fallback when Google is unavailable', async () => {
+test('keeps the static fallback when one Google tab is unavailable', async () => {
   const documentRef = new FakeDocument();
   const before = documentRef.snapshot();
   const loaded = await loader.loadPrices({
     documentRef,
-    endpoint,
-    fetchImpl: async () => { throw new TypeError('network unavailable'); },
+    querySheetImpl: async ({ sheetName }) => {
+      if (sheetName === 'Терапія') throw new Error('network unavailable');
+      return gvizResponse(defaultSheetRows());
+    },
     logger: silentLogger
   });
 
@@ -304,10 +275,32 @@ test('keeps the static fallback when Google is unavailable', async () => {
   assert.deepEqual(documentRef.snapshot(), before);
 });
 
+test('applies no partial update when one category contains unsafe data', async () => {
+  const documentRef = new FakeDocument();
+  const before = documentRef.snapshot();
+  const loaded = await loader.loadPrices({
+    documentRef,
+    querySheetImpl: queryAllSheets({
+      Терапія: [['terapiya-001', '<b>Небезпечна назва</b>', '400 грн']]
+    }),
+    logger: silentLogger
+  });
+
+  assert.equal(loaded, false);
+  assert.deepEqual(documentRef.snapshot(), before);
+});
+
+test('accepts numeric cell values as visible text', () => {
+  const response = {
+    status: 'ok',
+    table: { rows: [{ c: [{ v: '' }, { v: 'Консультація' }, { v: 400 }] }] }
+  };
+  const services = loader.parseGvizResponse(response, 'zagalni');
+  assert.equal(services[0].price, '400');
+});
+
 test('uses only safe DOM APIs in the public loader source', async () => {
-  const source = await import('node:fs/promises').then((fs) =>
-    fs.readFile(new URL('../price-loader.js', import.meta.url), 'utf8')
-  );
+  const source = await fs.readFile(new URL('../price-loader.js', import.meta.url), 'utf8');
   assert.match(source, /documentRef\.createElement/);
   assert.match(source, /\.textContent\s*=/);
   assert.match(source, /\.append\(/);
