@@ -36,15 +36,16 @@ Use SEO Site Operator for this client and continue the existing implementation.
 
 ## Current implementation state
 
-- PR #1, PR #2 and PR #3 are merged into `main`; production `main` is `28f51d43f3f26e3bb2e943428a0f2a70936c6653`
-- Current review branch: `fix/maps-and-cases`, created from that verified `main` commit
-- Current draft PR: [#4 — Fix Google Maps embed and restore Status cases](https://github.com/optidigitalagent/status1/pull/4)
-- The branch repairs the Google Maps iframe and restores 13 owner-approved case groups from the `qofhq8xa` manifest with neutral labels, an explicit visualization disclosure and no new clinical schema
-- Keep this work in a separate draft PR; do not merge or deploy without explicit approval
+- PR #1 through PR #6 are merged into `main`; the verified base for the current review is `4c6ad156f2e0e9489372b57968b2d3679e89a214`
+- Current review branch: `feat/google-sheets-price`, created from that verified `main` commit
+- Current draft PR: [#7 — Connect the Status price list to Google Sheets](https://github.com/optidigitalagent/status1/pull/7)
+- The branch adds an allowlisted Apps Script JSON feed, a strictly validated atomic browser loader, the complete static fallback, tests and owner setup documentation; it does not change CSS, metadata, other pages or external accounts
+- Keep PR #7 as a draft. Do not merge or deploy until the owner publishes and verifies the Apps Script `/exec` endpoint, the single `PRICE_API_URL` placeholder is replaced, checks are rerun and the owner separately authorizes merge/deployment
 
 ## Known blockers and safeguards
 
 - Do not merge or deploy without explicit approval
+- The Apps Script Web App URL is not published; the dynamic feed intentionally remains disabled behind the single `PRICE_API_URL` placeholder while the static price stays visible
 - DNS, HTTPS, redirects, canonical responses and sitemap URLs were verified after the 2026-07-22 deployment
 - Forms do not have a real endpoint yet; do not claim that a lead was sent until a server confirms delivery
 - Google Business Profile changes are under review; do not modify the profile in this branch
