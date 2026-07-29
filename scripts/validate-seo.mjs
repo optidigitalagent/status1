@@ -81,14 +81,45 @@ for (const file of htmlFiles) {
       fail('index.html: expected 13 keyboard-focusable case buttons');
     }
 
+    const expectedCasePhases = new Map(expectedCaseIds.map((id) => [id, ['before', 'after']]));
+    expectedCasePhases.set('case-02', ['before', 'intermediate', 'after']);
+    expectedCasePhases.set('case-06', ['before', 'intermediate', 'after']);
+    const caseUrlPrefix = 'https://res.cloudinary.com/qofhq8xa/image/upload/f_auto,q_auto,c_limit,w_1600/status/cases';
+    const expectedCaseUrls = new Set(Array.from(expectedCasePhases, ([id, phases]) =>
+      phases.map((phase) => `${caseUrlPrefix}/${id}/${phase}.png`)
+    ).flat());
+
     const caseImages = matches(casesSection, /<img\b[^>]*>/gi).map((match) => match[0]);
-    if (caseImages.length !== 26) fail(`index.html: expected 26 manifest case images, found ${caseImages.length}`);
+    if (caseImages.length !== 28) fail(`index.html: expected 28 manifest case images, found ${caseImages.length}`);
+    const actualCaseUrls = [];
     for (const image of caseImages) {
-      if (!/\bdata-src=["']https:\/\/res\.cloudinary\.com\/qofhq8xa\/image\/upload\/f_auto,q_auto,c_limit,w_1600\/cases\/case-\d{2}\/[a-z0-9-]+\.png["']/i.test(image)) {
-        fail('index.html: case image does not use the approved qofhq8xa manifest path');
-      }
+      const url = image.match(/\bdata-src=["']([^"']+)["']/i)?.[1] || '';
+      actualCaseUrls.push(url);
+      if (!expectedCaseUrls.has(url)) fail(`index.html: case image is not in the approved 28-asset manifest: ${url || '(missing data-src)'}`);
       if (!/\bloading=["']lazy["']/i.test(image)) fail('index.html: case image is not lazy-loaded');
       if (!/\bdecoding=["']async["']/i.test(image)) fail('index.html: case image is missing async decoding');
+    }
+    if (new Set(actualCaseUrls).size !== expectedCaseUrls.size) {
+      fail(`index.html: expected ${expectedCaseUrls.size} unique manifest case URLs, found ${new Set(actualCaseUrls).size}`);
+    }
+    for (const expectedUrl of expectedCaseUrls) {
+      if (!actualCaseUrls.includes(expectedUrl)) fail(`index.html: missing approved manifest URL ${expectedUrl}`);
+    }
+    if (/\bdata-composite(?:=|\s|>)/i.test(casesSection)) fail('index.html: case gallery must use separate image panels, not data-composite');
+
+    for (const [id, phases] of expectedCasePhases) {
+      const card = casesSection.match(new RegExp(`<div\\b(?=[^>]*\\bid=["']${id}["'])([^>]*)>([\\s\\S]*?)<\\/div>`, 'i'));
+      if (!card) continue;
+      const attributes = card[1];
+      const body = card[2];
+      if (!new RegExp(`\\bdata-images=["']${phases.length}["']`, 'i').test(attributes)) {
+        fail(`index.html: ${id} must declare data-images="${phases.length}"`);
+      }
+      const cardUrls = matches(body, /<img\b[^>]*\bdata-src=["']([^"']+)["'][^>]*>/gi).map((match) => match[1]);
+      const expectedUrls = phases.map((phase) => `${caseUrlPrefix}/${id}/${phase}.png`);
+      if (cardUrls.length !== expectedUrls.length || cardUrls.some((url, index) => url !== expectedUrls[index])) {
+        fail(`index.html: ${id} images must follow the approved ${phases.join(' → ')} order`);
+      }
     }
     if (!/Демонстраційні візуалізації\. Зображення не підтверджені як результати лікування конкретних пацієнтів і не гарантують аналогічного результату\./.test(casesSection)) {
       fail('index.html: required individual-result and visualization disclosure is missing');
@@ -102,8 +133,8 @@ for (const file of htmlFiles) {
         if (!['До', 'Проміжний етап', 'Після'].includes(label)) fail(`index.html: unsupported case label ${label}`);
       }
     }
-    const case11 = casesSection.match(/<div\b[^>]*\bid=["']case-11["'][^>]*>([\s\S]*?)<\/div>/i)?.[0] || '';
-    if (/Проміжний етап/.test(case11)) fail('index.html: case-11 must not invent an intermediate stage');
+    const intermediateUrls = actualCaseUrls.filter((url) => url.endsWith('/intermediate.png'));
+    if (intermediateUrls.length !== 2) fail(`index.html: expected intermediate images only for case-02 and case-06, found ${intermediateUrls.length}`);
 
     const mapFrame = html.match(/<iframe\b[^>]*\bsrc=["']https:\/\/www\.google\.com\/maps\/embed\?origin=mfe&amp;pb=!1m3!2m1!1s47\.827689,35\.161495!6i17["'][^>]*><\/iframe>/i)?.[0] || '';
     if (!mapFrame) fail('index.html: embed-safe coordinates map iframe is missing');
