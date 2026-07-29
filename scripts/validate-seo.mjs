@@ -230,6 +230,16 @@ if (!/documentRef\.createElement/.test(priceLoader) || !/\.textContent\s*=/.test
 if (/\.innerHTML\s*=|insertAdjacentHTML|document\.write|\beval\s*\(/.test(priceLoader)) {
   fail('price-loader.js: unsafe DOM or script execution API detected');
 }
+if (!/docs\.google\.com\/spreadsheets\/d\//.test(priceLoader) || !/\/gviz\/tq/.test(priceLoader)) {
+  fail('price-loader.js: direct read-only Google Sheets query endpoint is missing');
+}
+if (/script\.google\.com|PRICE_API_URL|PASTE_APPS_SCRIPT/.test(priceLoader)) {
+  fail('price-loader.js: obsolete Apps Script endpoint configuration remains');
+}
+const expectedSheetNames = ['Загальні', 'Профілактика', 'Пародонтологія', 'Терапія', 'Ортодонтія', 'Ортопедія', 'Хірургія'];
+for (const sheetName of expectedSheetNames) {
+  if (!priceLoader.includes(`'${sheetName}'`)) fail(`price-loader.js: missing fixed Sheet tab ${sheetName}`);
+}
 const combinedPublicSource = publicSources.join('\n');
 if (!/status_conversion_intent/.test(combinedPublicSource) || !/status:conversion-intent/.test(combinedPublicSource)) {
   fail('conversion-tracking.js: conversion-intent event contract is missing');
