@@ -159,4 +159,4 @@ Record one entry per implementation batch.
 - Evidence boundary: retained all 13 IDs, 26 approved `qofhq8xa` URLs, neutral labels, disclosure, deferred loading and the demonstration-visualization label; no clinical attribution or unsupported schema was added.
 - Cache keys: `status.css?v=14`, `status.js?v=12`; `conversion-tracking.js?v=1` unchanged.
 - Validation: SEO, JavaScript syntax, conversion tracking, JSON-LD, sitemap, link/fragment and diff checks passed; Playwright passed at 360×900, 768×1000 and 1440×1000 with zero page overflow, vertical and horizontal touch movement, 0/26 pre-section requests and 26/26 requested and decoded after gallery traversal.
-- Commit or pull request: `fix/case-gallery-original-layout`; draft PR pending final publish; merge and deployment intentionally not performed.
+- Commit or pull request: implementation commit `662e569ae93fa53de94e72479072c84d8aeffe81` on `fix/case-gallery-original-layout`; [draft PR #5](https://github.com/optidigitalagent/status1/pull/5); merge and deployment intentionally not performed.
