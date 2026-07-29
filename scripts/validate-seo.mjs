@@ -16,7 +16,8 @@ const matches = (source, regex) => Array.from(source.matchAll(regex));
 const fail = (message) => errors.push(message);
 
 function resolveLocalTarget(sourceFile, href) {
-  const [rawPath, fragment = ''] = href.split('#', 2);
+  const [pathWithQuery, fragment = ''] = href.split('#', 2);
+  const rawPath = pathWithQuery.split('?', 1)[0];
   if (!rawPath) return { file: sourceFile, fragment };
 
   let normalized = rawPath.replace(/^\.\//, '').replace(/^\//, '');
@@ -179,9 +180,56 @@ for (const file of htmlFiles) {
       }
     }
   }
+
+  for (const resource of matches(html, /\b(?:href|src)=["']([^"']+)["']/gi)) {
+    const resourceUrl = resource[1];
+    if (/^(?:https?:|tel:|mailto:|data:|#)/i.test(resourceUrl)) continue;
+    const target = resolveLocalTarget(file, resourceUrl);
+    if (!fs.existsSync(path.join(root, target.file))) {
+      fail(`${file}: unresolved local resource ${resourceUrl}`);
+    }
+  }
+
+  if (file === 'price.html') {
+    const categoryIds = ['zagalni', 'profilaktyka', 'parodontologiya', 'terapiya', 'ortodontiya', 'ortopediya', 'hirurgiya'];
+    categoryIds.forEach((categoryId, index) => {
+      const startMatch = new RegExp(`<div\\b(?=[^>]*\\bid=["']${categoryId}["'])[^>]*>`, 'i').exec(html);
+      const nextId = categoryIds[index + 1];
+      const nextMatch = nextId
+        ? new RegExp(`<div\\b(?=[^>]*\\bid=["']${nextId}["'])[^>]*>`, 'i').exec(html)
+        : /<div\s+class=["'][^"']*price-cta/i.exec(html);
+      const categoryBlock = startMatch
+        ? html.slice(startMatch.index, nextMatch ? nextMatch.index : html.length)
+        : '';
+      if (!categoryBlock) fail(`price.html: missing fixed category ${categoryId}`);
+      if (matches(categoryBlock, /<ul\s+class=["']price-list["']>/gi).length !== 1) {
+        fail(`price.html: ${categoryId} must contain exactly one static fallback price-list`);
+      }
+    });
+    if (matches(html, /<script\s+src=["']price-loader\.js\?v=1["']><\/script>/gi).length !== 1) {
+      fail('price.html: expected one price loader script');
+    }
+    if (!/Лігатурна брекет-система \(метал\), 1 щелепа[\s\S]{0,160}17 000 грн/.test(html)) {
+      fail('price.html: confirmed 17 000 UAH static fallback price is missing');
+    }
+    const note = html.match(/<p\s+class=["']price-note["']>([\s\S]*?)<\/p>/i)?.[1] || '';
+    if (/\b17\s*000\s*грн\b/i.test(note)) {
+      fail('price.html: orthodontic note duplicates a numeric price outside price-list');
+    }
+  } else if (/price-loader\.js/i.test(html)) {
+    fail(`${file}: price-loader.js must be connected only to price.html`);
+  }
 }
 
 publicSources.push(read('status.js'), read('conversion-tracking.js'));
+const priceLoader = read('price-loader.js');
+if (!/documentRef\.createElement/.test(priceLoader) || !/\.textContent\s*=/.test(priceLoader) ||
+    !/\.append\(/.test(priceLoader) || !/\.replaceChildren\(/.test(priceLoader)) {
+  fail('price-loader.js: required safe DOM construction APIs are missing');
+}
+if (/\.innerHTML\s*=|insertAdjacentHTML|document\.write|\beval\s*\(/.test(priceLoader)) {
+  fail('price-loader.js: unsafe DOM or script execution API detected');
+}
 const combinedPublicSource = publicSources.join('\n');
 if (!/status_conversion_intent/.test(combinedPublicSource) || !/status:conversion-intent/.test(combinedPublicSource)) {
   fail('conversion-tracking.js: conversion-intent event contract is missing');
