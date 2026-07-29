@@ -41,13 +41,15 @@ Use SEO Site Operator for this client and continue the existing implementation.
 - Current draft PR: [#7 — Connect the Status price list to Google Sheets](https://github.com/optidigitalagent/status1/pull/7)
 - The branch keeps the complete static fallback and reads seven fixed tabs from the existing owner-managed Google Sheet through Google's public read-only Visualization endpoint
 - Apps Script is not required; `price-loader.js` contains the fixed Spreadsheet ID, sheet allowlist, timeout, validation, safe DOM rendering and atomic replacement
-- Keep PR #7 as a draft. Do not merge or deploy until the owner sets the price-only Sheet to `Anyone with the link → Viewer`, the public feed is verified, checks are rerun and the owner separately authorizes merge/deployment
+- The owner intentionally set the price-only Sheet to `Anyone with the link → Editor`, confirmed awareness that anyone with the link can change its data, and accepted that risk
+- Public read access for all seven fixed tabs was verified without authentication through the Google Visualization endpoint on 2026-07-29; access is not a technical blocker
+- Keep PR #7 as a draft. Do not merge or deploy until checks are rerun and the owner separately authorizes merge/deployment
 
 ## Known blockers and safeguards
 
 - Do not merge or deploy without explicit approval
-- The Google Sheet is still restricted; the dynamic feed remains unavailable until the owner performs the one-time read-only sharing action
-- Public sharing must remain Viewer only. Add the clinic client separately as an Editor; never grant anonymous edit access
+- The site technically requires only public read access. The owner's current public Editor choice is broader than necessary but works for anonymous read requests and must not be changed by code
+- `Anyone with the link → Viewer` may be recommended only as an optional safer alternative, not as a requirement or blocker
 - The Sheet must contain only public price-list data and no patient data, secrets, tokens or internal medical information
 - DNS, HTTPS, redirects, canonical responses and sitemap URLs were verified after the 2026-07-22 deployment
 - Forms do not have a real endpoint yet; do not claim that a lead was sent until a server confirms delivery
