@@ -150,3 +150,13 @@ Record one entry per implementation batch.
 - Expected effect: clearer YMYL evidence boundaries and complete keyboard containment without changing the gallery inventory or search architecture.
 - Acceptance tests: 13 case IDs and accessible names, 26 exact manifest URLs, map/fallback preservation, Enter/Space/Escape/Tab/Shift+Tab/focus-return behavior, reduced motion, pause behavior, deferred case requests, 360/768/1440 visual and overflow QA, H1/JSON-LD/canonical/sitemap checks, JavaScript syntax, conversion tests, SEO validation and `git diff --check`.
 - Commit or pull request: `fix/maps-and-cases` draft PR #4; merge and deployment intentionally not performed.
+
+## 2026-07-29 — Grouped case-gallery visual restoration
+
+- Scope: visual-only follow-up on the merged 13-case gallery; no service, doctor, price, contact, map, canonical, sitemap, JSON-LD or Cloudinary URL change.
+- Change: restored flex-sized case cards with touching 400×280 desktop panels and 280×200 mobile panels, 16 px between separate cards, `object-fit: cover` previews and proportional two-/three-panel widths for the ready case-03/04/05 collages.
+- Modal: kept full uncropped `object-fit: contain` images in one desktop row, stacked full-width images on mobile, scroll locking, keyboard/focus behavior and a fixed mobile close control; reset modal scroll position on every open.
+- Evidence boundary: retained all 13 IDs, 26 approved `qofhq8xa` URLs, neutral labels, disclosure, deferred loading and the demonstration-visualization label; no clinical attribution or unsupported schema was added.
+- Cache keys: `status.css?v=14`, `status.js?v=12`; `conversion-tracking.js?v=1` unchanged.
+- Validation: SEO, JavaScript syntax, conversion tracking, JSON-LD, sitemap, link/fragment and diff checks passed; Playwright passed at 360×900, 768×1000 and 1440×1000 with zero page overflow, vertical and horizontal touch movement, 0/26 pre-section requests and 26/26 requested and decoded after gallery traversal.
+- Commit or pull request: implementation commit `662e569ae93fa53de94e72479072c84d8aeffe81` on `fix/case-gallery-original-layout`; [draft PR #5](https://github.com/optidigitalagent/status1/pull/5); merge and deployment intentionally not performed.
