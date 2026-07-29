@@ -36,15 +36,21 @@ Use SEO Site Operator for this client and continue the existing implementation.
 
 ## Current implementation state
 
-- PR #1, PR #2 and PR #3 are merged into `main`; production `main` is `28f51d43f3f26e3bb2e943428a0f2a70936c6653`
-- Current review branch: `fix/maps-and-cases`, created from that verified `main` commit
-- Current draft PR: [#4 — Fix Google Maps embed and restore Status cases](https://github.com/optidigitalagent/status1/pull/4)
-- The branch repairs the Google Maps iframe and restores 13 owner-approved case groups from the `qofhq8xa` manifest with neutral labels, an explicit visualization disclosure and no new clinical schema
-- Keep this work in a separate draft PR; do not merge or deploy without explicit approval
+- PR #1 through PR #6 are merged into `main`; the verified base for the current review is `4c6ad156f2e0e9489372b57968b2d3679e89a214`
+- Current review branch: `feat/google-sheets-price`, created from that verified `main` commit
+- Current draft PR: [#7 — Connect the Status price list to Google Sheets](https://github.com/optidigitalagent/status1/pull/7)
+- The branch keeps the complete static fallback and reads seven fixed tabs from the existing owner-managed Google Sheet through Google's public read-only Visualization endpoint
+- Apps Script is not required; `price-loader.js` contains the fixed Spreadsheet ID, sheet allowlist, timeout, validation, safe DOM rendering and atomic replacement
+- The owner intentionally set the price-only Sheet to `Anyone with the link → Editor`, confirmed awareness that anyone with the link can change its data, and accepted that risk
+- Public read access for all seven fixed tabs was verified without authentication through the Google Visualization endpoint on 2026-07-29; access is not a technical blocker
+- Keep PR #7 as a draft. Do not merge or deploy until checks are rerun and the owner separately authorizes merge/deployment
 
 ## Known blockers and safeguards
 
 - Do not merge or deploy without explicit approval
+- The site technically requires only public read access. The owner's current public Editor choice is broader than necessary but works for anonymous read requests and must not be changed by code
+- `Anyone with the link → Viewer` may be recommended only as an optional safer alternative, not as a requirement or blocker
+- The Sheet must contain only public price-list data and no patient data, secrets, tokens or internal medical information
 - DNS, HTTPS, redirects, canonical responses and sitemap URLs were verified after the 2026-07-22 deployment
 - Forms do not have a real endpoint yet; do not claim that a lead was sent until a server confirms delivery
 - Google Business Profile changes are under review; do not modify the profile in this branch
