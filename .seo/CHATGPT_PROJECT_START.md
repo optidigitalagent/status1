@@ -39,13 +39,16 @@ Use SEO Site Operator for this client and continue the existing implementation.
 - PR #1 through PR #6 are merged into `main`; the verified base for the current review is `4c6ad156f2e0e9489372b57968b2d3679e89a214`
 - Current review branch: `feat/google-sheets-price`, created from that verified `main` commit
 - Current draft PR: [#7 — Connect the Status price list to Google Sheets](https://github.com/optidigitalagent/status1/pull/7)
-- The branch adds an allowlisted Apps Script JSON feed, a strictly validated atomic browser loader, the complete static fallback, tests and owner setup documentation; it does not change CSS, metadata, other pages or external accounts
-- Keep PR #7 as a draft. Do not merge or deploy until the owner publishes and verifies the Apps Script `/exec` endpoint, the single `PRICE_API_URL` placeholder is replaced, checks are rerun and the owner separately authorizes merge/deployment
+- The branch keeps the complete static fallback and reads seven fixed tabs from the existing owner-managed Google Sheet through Google's public read-only Visualization endpoint
+- Apps Script is not required; `price-loader.js` contains the fixed Spreadsheet ID, sheet allowlist, timeout, validation, safe DOM rendering and atomic replacement
+- Keep PR #7 as a draft. Do not merge or deploy until the owner sets the price-only Sheet to `Anyone with the link → Viewer`, the public feed is verified, checks are rerun and the owner separately authorizes merge/deployment
 
 ## Known blockers and safeguards
 
 - Do not merge or deploy without explicit approval
-- The Apps Script Web App URL is not published; the dynamic feed intentionally remains disabled behind the single `PRICE_API_URL` placeholder while the static price stays visible
+- The Google Sheet is still restricted; the dynamic feed remains unavailable until the owner performs the one-time read-only sharing action
+- Public sharing must remain Viewer only. Add the clinic client separately as an Editor; never grant anonymous edit access
+- The Sheet must contain only public price-list data and no patient data, secrets, tokens or internal medical information
 - DNS, HTTPS, redirects, canonical responses and sitemap URLs were verified after the 2026-07-22 deployment
 - Forms do not have a real endpoint yet; do not claim that a lead was sent until a server confirms delivery
 - Google Business Profile changes are under review; do not modify the profile in this branch
